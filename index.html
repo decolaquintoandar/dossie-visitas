@@ -176,7 +176,16 @@
             const infos = document.createElement("div");
             infos.className = "imovel-infos";
             infos.textContent = `${imovel["house_total_area"]} m² | ${imovel["house_bedrooms"]} quarto(s) | ${imovel["house_bathrooms"]} ban. | ${imovel["house_garages"]} vaga(s)`;
-
+            
+            const tags = document.createElement("div");
+            tags.className = "tags";
+            const hoje = new Date();
+            const quinzeDiasAtras = new Date(hoje);
+            quinzeDiasAtras.setDate(hoje.getDate() - 15);
+            if (Number(imovel["price"]) <= Number(imovel["predicted_price_70"])) tags.innerHTML += '<div class="tag">💲 Super Preço</div>';
+            if (imovel["last_price_down"] && new Date(imovel["last_price_down"]) >= quinzeDiasAtras) tags.innerHTML += '<div class="tag">⬇️ Redução recente</div>';
+            if (Number(imovel["vb"]) > 5) tags.innerHTML += '<div class="tag">⭐ Muitas visitas</div>';
+            
             const preco = document.createElement("div");
             preco.className = "imovel-preco";
             preco.textContent = `R$ ${Number(imovel["price"]).toLocaleString("pt-BR")}`;
