@@ -83,7 +83,7 @@
           function atualizarTabela(filtro = "") {
             tbody.innerHTML = "";
             skhouseList.innerHTML = "";
-            const filtrado = data.filter(linha => String(linha["id_corretor"]).includes(filtro);
+            const filtrado = data.filter(linha => String(linha["id_corretor"]).includes(filtro));
             filtrado.forEach(linha => {
               const tr = document.createElement("tr");
               colunas.forEach(coluna => {
