@@ -44,8 +44,18 @@
       text-align: center;
       margin-top: 40px;
     }
-    .imovel-container img {
-      max-width: 100%;
+    .imovel-grid {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .imovel-imagem {
+      max-width: 500px;
+    }
+    .imovel-imagem img {
+      width: 100%;
       max-height: 400px;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -59,6 +69,27 @@
       margin-top: 12px;
       font-size: 16px;
       color: #444;
+    }
+    .imovel-detalhes {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      width: 320px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    .imovel-detalhes table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .imovel-detalhes th, .imovel-detalhes td {
+      text-align: left;
+      padding: 6px 4px;
+      font-size: 14px;
+    }
+    .imovel-detalhes th {
+      color: #555;
+      width: 50%;
     }
   </style>
 </head>
@@ -114,6 +145,12 @@
 
             const imovel = filtrado.find(linha => linha["sk_house"] === filtroSkhouse);
             if (imovel) {
+              const grid = document.createElement("div");
+              grid.className = "imovel-grid";
+
+              const imagemCol = document.createElement("div");
+              imagemCol.className = "imovel-imagem";
+
               const endereco = document.createElement("div");
               endereco.className = "imovel-endereco";
               endereco.textContent = `${imovel["house_address"]}, ${imovel["house_neighborhood"]}`;
@@ -123,12 +160,48 @@
 
               const infos = document.createElement("div");
               infos.className = "imovel-infos";
-              infos.textContent = `${imovel["house_total_area"]} | ${imovel["house_bedrooms"]} quarto(s) | ${imovel["house_bathrooms"]} ban. | ${imovel["house_garages"]} vaga(s)`;
+              infos.textContent = `${imovel["house_total_area"]} m² | ${imovel["house_bedrooms"]} quarto(s) | ${imovel["house_bathrooms"]} ban. | ${imovel["house_garages"]} vaga(s)`;
 
-              imovelContainer.appendChild(endereco);
-              imovelContainer.appendChild(img);
-              imovelContainer.appendChild(infos);
+              imagemCol.appendChild(endereco);
+              imagemCol.appendChild(img);
+              imagemCol.appendChild(infos);
+              grid.appendChild(imagemCol);
 
+              const detalhesCol = document.createElement("div");
+              detalhesCol.className = "imovel-detalhes";
+              const tabela = document.createElement("table");
+
+              const rows = [
+                ["Data da visita", imovel["dt_visita"] || "-"],
+                ["Hora da visita", imovel["hr_visita"] || "-"],
+                ["Dias Publicado", imovel["days_published"]],
+                ["Ofertas", imovel["os"]],
+                ["Visitas", imovel["vb"]],
+                ["Primeiro Preço", imovel["floor"]],
+                ["Preço Atual", imovel["price"]],
+                ["Diagn. de Preço", ((imovel["price"] - imovel["predicted_price_70"]) / imovel["price"]).toFixed(2)],
+                ["Último Desconto", imovel["last_price_down"]],
+                ["% Desconto", imovel["previous_price_variation"]],
+                ["Última Oferta", imovel["date"]],
+                ["Status Oferta", imovel["monday_status"]],
+                ["Valor Ofertado", imovel["sale_price_agreed"]]
+              ];
+
+              rows.forEach(([label, valor]) => {
+                const tr = document.createElement("tr");
+                const th = document.createElement("th");
+                const td = document.createElement("td");
+                th.textContent = label;
+                td.textContent = valor ?? "-";
+                tr.appendChild(th);
+                tr.appendChild(td);
+                tabela.appendChild(tr);
+              });
+
+              detalhesCol.appendChild(tabela);
+              grid.appendChild(detalhesCol);
+
+              imovelContainer.appendChild(grid);
               placeholder.style.display = "none";
               imovelContainer.style.display = "block";
             }
