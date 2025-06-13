@@ -7,117 +7,27 @@
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; display: flex; }
     h1 { color: #333; }
-    .sidebar {
-      width: 250px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      margin-right: 20px;
-      height: fit-content;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .sidebar h2 {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-    .skhouse-item {
-      padding: 8px;
-      margin-bottom: 5px;
-      background-color: #f0f0f0;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .skhouse-item:hover {
-      background-color: #e0e0e0;
-    }
-    .main {
-      flex: 1;
-    }
+    .sidebar { width: 250px; background-color: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin-right: 20px; height: fit-content; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+    .sidebar h2 { font-size: 16px; margin-bottom: 10px; }
+    .skhouse-item { padding: 8px; margin-bottom: 5px; background-color: #f0f0f0; border-radius: 6px; cursor: pointer; }
+    .skhouse-item:hover { background-color: #e0e0e0; }
+    .main { flex: 1; }
     .filter { margin-bottom: 20px; }
-    .placeholder {
-      margin-top: 40px;
-      font-size: 18px;
-      color: #666;
-    }
-    .imovel-container {
-      text-align: center;
-      margin-top: 40px;
-    }
-    .imovel-grid {
-      display: flex;
-      gap: 40px;
-      justify-content: center;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-    .imovel-imagem {
-      max-width: 500px;
-      text-align: center;
-    }
-    .imovel-imagem img {
-      width: 100%;
-      max-height: 400px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .imovel-endereco {
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    .imovel-infos {
-      margin-top: 12px;
-      font-size: 16px;
-      color: #444;
-      text-align: center;
-    }
-    .imovel-preco {
-      font-size: 20px;
-      font-weight: bold;
-      margin-top: 8px;
-      text-align: center;
-    }
-    .imovel-link {
-      margin-top: 8px;
-      font-size: 15px;
-      text-align: center;
-    }
-    .imovel-detalhes {
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 20px;
-      width: 320px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    }
-    .imovel-detalhes table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .imovel-detalhes th, .imovel-detalhes td {
-      text-align: left;
-      padding: 6px 4px;
-      font-size: 14px;
-    }
-    .imovel-detalhes th {
-      color: #555;
-      width: 50%;
-    }
-    .tags {
-      margin-top: 16px;
-      text-align: center;
-    }
-    .tag {
-      display: inline-block;
-      margin: 4px;
-      background-color: #e0f7fa;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 14px;
-      color: #00796b;
-    }
+    .placeholder { margin-top: 40px; font-size: 18px; color: #666; }
+    .imovel-container { text-align: center; margin-top: 40px; }
+    .imovel-grid { display: flex; gap: 40px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+    .imovel-imagem { max-width: 500px; text-align: center; }
+    .imovel-imagem img { width: 100%; max-height: 400px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+    .imovel-endereco { font-weight: bold; font-size: 18px; margin-bottom: 10px; text-align: center; }
+    .imovel-infos { margin-top: 12px; font-size: 16px; color: #444; text-align: center; }
+    .imovel-preco { font-size: 20px; font-weight: bold; margin-top: 8px; text-align: center; }
+    .imovel-link { margin-top: 8px; font-size: 15px; text-align: center; }
+    .imovel-detalhes { background-color: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 320px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); }
+    .imovel-detalhes table { width: 100%; border-collapse: collapse; }
+    .imovel-detalhes th, .imovel-detalhes td { text-align: left; padding: 6px 4px; font-size: 14px; }
+    .imovel-detalhes th { color: #555; width: 50%; }
+    .tags { margin-top: 16px; text-align: center; }
+    .tag { display: inline-block; margin: 4px; background-color: #e0f7fa; padding: 6px 12px; border-radius: 20px; font-size: 14px; color: #00796b; }
   </style>
 </head>
 <body>
@@ -138,6 +48,22 @@
   </div>
 
   <script>
+    function formatarDataBR(dataStr) {
+      if (!dataStr) return "-";
+      const d = new Date(dataStr);
+      return d instanceof Date && !isNaN(d) ? d.toLocaleDateString("pt-BR") : dataStr;
+    }
+
+    function formatarReais(valor) {
+      return valor ? `R$ ${Number(valor).toLocaleString("pt-BR")}` : "-";
+    }
+
+    function formatarPercentual(valor) {
+      const num = parseFloat(valor);
+      if (isNaN(num)) return "-";
+      return `${(num * 100).toFixed(1).replace('.', ',')}%`;
+    }
+
     async function carregarCSV() {
       const response = await fetch('dados.csv?v=' + new Date().getTime());
       const csvText = await response.text();
@@ -177,14 +103,11 @@
 
               const imagemCol = document.createElement("div");
               imagemCol.className = "imovel-imagem";
-
               const endereco = document.createElement("div");
               endereco.className = "imovel-endereco";
               endereco.textContent = `${imovel["house_address"]}, ${imovel["house_neighborhood"]}`;
-
               const img = document.createElement("img");
               img.src = `https://www.quintoandar.com.br/img/${imovel["name"]}`;
-
               const infos = document.createElement("div");
               infos.className = "imovel-infos";
               infos.textContent = `${imovel["house_total_area"]} m² | ${imovel["house_bedrooms"]} quarto(s) | ${imovel["house_bathrooms"]} ban. | ${imovel["house_garages"]} vaga(s)`;
@@ -194,30 +117,13 @@
               const hoje = new Date();
               const quinzeDiasAtras = new Date(hoje);
               quinzeDiasAtras.setDate(hoje.getDate() - 15);
-
-              if (Number(imovel["price"]) <= Number(imovel["predicted_price_70"])) {
-                const tag = document.createElement("div");
-                tag.className = "tag";
-                tag.textContent = "💲 Super Preço";
-                tags.appendChild(tag);
-              }
-              if (imovel["last_price_down"] && new Date(imovel["last_price_down"]) >= quinzeDiasAtras) {
-                const tag = document.createElement("div");
-                tag.className = "tag";
-                tag.textContent = "⬇️ Redução recente";
-                tags.appendChild(tag);
-              }
-              if (Number(imovel["vb"]) > 5) {
-                const tag = document.createElement("div");
-                tag.className = "tag";
-                tag.textContent = "⭐ Muitas visitas";
-                tags.appendChild(tag);
-              }
+              if (Number(imovel["price"]) <= Number(imovel["predicted_price_70"])) tags.innerHTML += '<div class="tag">💲 Super Preço</div>';
+              if (imovel["last_price_down"] && new Date(imovel["last_price_down"]) >= quinzeDiasAtras) tags.innerHTML += '<div class="tag">⬇️ Redução recente</div>';
+              if (Number(imovel["vb"]) > 5) tags.innerHTML += '<div class="tag">⭐ Muitas visitas</div>';
 
               const preco = document.createElement("div");
               preco.className = "imovel-preco";
-              preco.textContent = `R$ ${Number(imovel["price"]).toLocaleString("pt-BR")}`;
-
+              preco.textContent = formatarReais(imovel["price"]);
               const link = document.createElement("div");
               link.className = "imovel-link";
               link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${imovel["sk_house"]}/comprar/" target="_blank">Imóvel da sua visita no site</a>`;
@@ -234,33 +140,29 @@
               detalhesCol.className = "imovel-detalhes";
               const tabela = document.createElement("table");
 
+              const diag = ((imovel["price"] - imovel["predicted_price_70"]) / imovel["price"]);
+              const diagLabel = isNaN(diag) ? "-" : `${(diag * 100).toFixed(1).replace('.', ',')}% ${diag >= 0 ? 'acima do ideal' : 'abaixo do ideal'}`;
+
               const rows = [
-                ["Data da visita", imovel["dt_visita"] || "-"],
+                ["Data da visita", formatarDataBR(imovel["dt_visita"])],
                 ["Hora da visita", imovel["hr_visita"] || "-"],
                 ["Dias Publicado", imovel["days_published"]],
                 ["Ofertas", imovel["os"]],
                 ["Visitas", imovel["vb"]],
-                ["Primeiro Preço", imovel["floor"]],
-                ["Preço Atual", imovel["price"]],
-                ["Diagn. de Preço", ((imovel["price"] - imovel["predicted_price_70"]) / imovel["price"]).toFixed(2)],
-                ["Último Desconto", imovel["last_price_down"]],
-                ["% Desconto", imovel["previous_price_variation"]],
-                ["Última Oferta", imovel["date"]],
-                ["Status Oferta", imovel["monday_status"]],
-                ["Valor Ofertado", imovel["sale_price_agreed"]]
+                ["Primeiro Preço", formatarReais(imovel["floor"])],
+                ["Preço Atual", formatarReais(imovel["price"])],
+                ["Diagn. de Preço", diagLabel],
+                ["Último Desconto", formatarDataBR(imovel["last_price_down"])],
+                ["% Desconto", formatarPercentual(imovel["previous_price_variation"])],
+                ["Última Oferta", formatarDataBR(imovel["date"])],
+                ["Status Oferta", imovel["monday_status"] || "-"],
+                ["Valor Ofertado", formatarReais(imovel["sale_price_agreed"])],
               ];
-
               rows.forEach(([label, valor]) => {
                 const tr = document.createElement("tr");
-                const th = document.createElement("th");
-                const td = document.createElement("td");
-                th.textContent = label;
-                td.textContent = valor ?? "-";
-                tr.appendChild(th);
-                tr.appendChild(td);
+                tr.innerHTML = `<th>${label}</th><td>${valor}</td>`;
                 tabela.appendChild(tr);
               });
-
               detalhesCol.appendChild(tabela);
               grid.appendChild(detalhesCol);
 
