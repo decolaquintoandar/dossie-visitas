@@ -7,7 +7,9 @@
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
     h1 { color: #333; }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    .section { margin-top: 40px; }
+    .section h2 { margin-bottom: 10px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
     th { background-color: #f0f0f0; }
     tr:hover { background-color: #eef; }
@@ -22,10 +24,21 @@
     <input type="text" id="corretor" placeholder="Digite o ID do corretor">
   </div>
 
-  <table id="tabela">
-    <thead></thead>
-    <tbody></tbody>
-  </table>
+  <div id="principal" class="section">
+    <h2>Imóvel da Visita</h2>
+    <table id="tabela-principal">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div id="similares" class="section">
+    <h2>Imóveis Similares</h2>
+    <table id="tabela-similares">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
   <script>
     async function carregarCSV() {
@@ -37,40 +50,57 @@
         skipEmptyLines: true,
         complete: function(results) {
           const data = results.data;
-          const tabela = document.getElementById("tabela");
-          const thead = tabela.querySelector("thead");
-          const tbody = tabela.querySelector("tbody");
 
-          // Cabeçalho
-          const colunas = Object.keys(data[0]);
-          const trHead = document.createElement("tr");
-          colunas.forEach(coluna => {
-            const th = document.createElement("th");
-            th.textContent = coluna;
-            trHead.appendChild(th);
-          });
-          thead.appendChild(trHead);
-
-          // Corpo da tabela
-          function atualizarTabela(filtro = "") {
-            tbody.innerHTML = "";
-            data.filter(linha => linha["id_corretor"].toLowerCase().includes(filtro.toLowerCase()))
-                .forEach(linha => {
-              const tr = document.createElement("tr");
-              colunas.forEach(coluna => {
-                const td = document.createElement("td");
-                td.textContent = linha[coluna];
-                tr.appendChild(td);
-              });
-              tbody.appendChild(tr);
-            });
-          }
+          const tabelaPrincipal = document.getElementById("tabela-principal");
+          const tabelaSimilares = document.getElementById("tabela-similares");
+          const theadPrincipal = tabelaPrincipal.querySelector("thead");
+          const tbodyPrincipal = tabelaPrincipal.querySelector("tbody");
+          const theadSimilares = tabelaSimilares.querySelector("thead");
+          const tbodySimilares = tabelaSimilares.querySelector("tbody");
 
           document.getElementById("corretor").addEventListener("input", (e) => {
-            atualizarTabela(e.target.value);
-          });
+            const id = e.target.value.trim();
+            const linha = data.find(row => row["Id Corretor"] === id);
 
-          atualizarTabela();
+            tbodyPrincipal.innerHTML = "";
+            theadPrincipal.innerHTML = "";
+            tbodySimilares.innerHTML = "";
+            theadSimilares.innerHTML = "";
+
+            if (!linha) return;
+
+            // Imóvel principal
+            const colunasPrincipal = ["Id Imóvel", "Endereço", "Área", "Quartos", "Banheiros", "Vagas", "Preço", "Tags"];
+            const trHeadP = document.createElement("tr");
+            colunasPrincipal.forEach(col => {
+              const th = document.createElement("th");
+              th.textContent = col;
+              trHeadP.appendChild(th);
+            });
+            theadPrincipal.appendChild(trHeadP);
+
+            const trP = document.createElement("tr");
+            colunasPrincipal.forEach(col => {
+              const td = document.createElement("td");
+              td.textContent = linha[col] || "";
+              trP.appendChild(td);
+            });
+            tbodyPrincipal.appendChild(trP);
+
+            // Similares
+            const colunasSimilares = ["Similar 1", "Similar 2", "Similar 3", "Similar 4", "Similar 5", "Similar 6", "Similar 7", "Similar 8", "Similar 9"];
+            const trHeadS = document.createElement("tr");
+            trHeadS.innerHTML = "<th>ID</th>";
+            theadSimilares.appendChild(trHeadS);
+
+            colunasSimilares.forEach(col => {
+              const tr = document.createElement("tr");
+              const td = document.createElement("td");
+              td.textContent = linha[col] || "-";
+              tr.appendChild(td);
+              tbodySimilares.appendChild(tr);
+            });
+          });
         }
       });
     }
