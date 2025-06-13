@@ -77,4 +77,39 @@
             const th = document.createElement("th");
             th.textContent = coluna;
             trHead.appendChild(th);
-          })
+          });
+          thead.appendChild(trHead);
+
+          function atualizarTabela(filtro = "") {
+            tbody.innerHTML = "";
+            skhouseList.innerHTML = "";
+            const filtrado = data.filter(linha => String(linha["id_corretor"]).includes(filtro);
+            filtrado.forEach(linha => {
+              const tr = document.createElement("tr");
+              colunas.forEach(coluna => {
+                const td = document.createElement("td");
+                td.textContent = linha[coluna];
+                tr.appendChild(td);
+              });
+              tbody.appendChild(tr);
+
+              const div = document.createElement("div");
+              div.className = "skhouse-item";
+              div.textContent = linha["sk_house"];
+              skhouseList.appendChild(div);
+            });
+          }
+
+          document.getElementById("corretor").addEventListener("input", (e) => {
+            atualizarTabela(e.target.value);
+          });
+
+          atualizarTabela();
+        }
+      });
+    }
+
+    carregarCSV();
+  </script>
+</body>
+</html>
