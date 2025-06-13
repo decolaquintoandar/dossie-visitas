@@ -5,11 +5,32 @@
   <title>Dossiê de Visitas</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; display: flex; }
     h1 { color: #333; }
-    .section { margin-top: 40px; }
-    .section h2 { margin-bottom: 10px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    .sidebar {
+      width: 250px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-right: 20px;
+      height: fit-content;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .sidebar h2 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .skhouse-item {
+      padding: 8px;
+      margin-bottom: 5px;
+      background-color: #f0f0f0;
+      border-radius: 4px;
+      cursor: default;
+    }
+    .main {
+      flex: 1;
+    }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
     th { background-color: #f0f0f0; }
     tr:hover { background-color: #eef; }
@@ -17,24 +38,19 @@
   </style>
 </head>
 <body>
-  <h1>Dossiê de Visitas</h1>
-
-  <div class="filter">
-    <label for="corretor">Filtrar por ID do Corretor: </label>
-    <input type="text" id="corretor" placeholder="Digite o ID do corretor">
+  <div class="sidebar">
+    <h2>Imóveis (sk_house)</h2>
+    <div id="skhouse-list"></div>
   </div>
 
-  <div id="principal" class="section">
-    <h2>Imóvel da Visita</h2>
-    <table id="tabela-principal">
-      <thead></thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  <div class="main">
+    <h1>Dossiê de Visitas</h1>
+    <div class="filter">
+      <label for="corretor">Filtrar por ID do Corretor: </label>
+      <input type="text" id="corretor" placeholder="Digite o ID do corretor">
+    </div>
 
-  <div id="similares" class="section">
-    <h2>Imóveis Similares</h2>
-    <table id="tabela-similares">
+    <table id="tabela">
       <thead></thead>
       <tbody></tbody>
     </table>
@@ -50,62 +66,15 @@
         skipEmptyLines: true,
         complete: function(results) {
           const data = results.data;
+          const tabela = document.getElementById("tabela");
+          const thead = tabela.querySelector("thead");
+          const tbody = tabela.querySelector("tbody");
+          const skhouseList = document.getElementById("skhouse-list");
 
-          const tabelaPrincipal = document.getElementById("tabela-principal");
-          const tabelaSimilares = document.getElementById("tabela-similares");
-          const theadPrincipal = tabelaPrincipal.querySelector("thead");
-          const tbodyPrincipal = tabelaPrincipal.querySelector("tbody");
-          const theadSimilares = tabelaSimilares.querySelector("thead");
-          const tbodySimilares = tabelaSimilares.querySelector("tbody");
-
-          document.getElementById("corretor").addEventListener("input", (e) => {
-            const id = e.target.value.trim();
-            const linha = data.find(row => row["Id Corretor"] === id);
-
-            tbodyPrincipal.innerHTML = "";
-            theadPrincipal.innerHTML = "";
-            tbodySimilares.innerHTML = "";
-            theadSimilares.innerHTML = "";
-
-            if (!linha) return;
-
-            // Imóvel principal
-            const colunasPrincipal = ["Id Imóvel", "Endereço", "Área", "Quartos", "Banheiros", "Vagas", "Preço", "Tags"];
-            const trHeadP = document.createElement("tr");
-            colunasPrincipal.forEach(col => {
-              const th = document.createElement("th");
-              th.textContent = col;
-              trHeadP.appendChild(th);
-            });
-            theadPrincipal.appendChild(trHeadP);
-
-            const trP = document.createElement("tr");
-            colunasPrincipal.forEach(col => {
-              const td = document.createElement("td");
-              td.textContent = linha[col] || "";
-              trP.appendChild(td);
-            });
-            tbodyPrincipal.appendChild(trP);
-
-            // Similares
-            const colunasSimilares = ["Similar 1", "Similar 2", "Similar 3", "Similar 4", "Similar 5", "Similar 6", "Similar 7", "Similar 8", "Similar 9"];
-            const trHeadS = document.createElement("tr");
-            trHeadS.innerHTML = "<th>ID</th>";
-            theadSimilares.appendChild(trHeadS);
-
-            colunasSimilares.forEach(col => {
-              const tr = document.createElement("tr");
-              const td = document.createElement("td");
-              td.textContent = linha[col] || "-";
-              tr.appendChild(td);
-              tbodySimilares.appendChild(tr);
-            });
-          });
-        }
-      });
-    }
-
-    carregarCSV();
-  </script>
-</body>
-</html>
+          const colunas = Object.keys(data[0]);
+          const trHead = document.createElement("tr");
+          colunas.forEach(coluna => {
+            const th = document.createElement("th");
+            th.textContent = coluna;
+            trHead.appendChild(th);
+          })
