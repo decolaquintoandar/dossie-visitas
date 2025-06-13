@@ -6,13 +6,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; display: flex; }
-    h1 { color: #333; }
+    h1 { color: #333; margin-bottom: 0; }
+    .subtitle { font-size: 18px; color: #555; margin-bottom: 20px; }
     .sidebar { width: 250px; background-color: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin-right: 20px; height: fit-content; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
     .sidebar h2 { font-size: 16px; margin-bottom: 10px; }
     .skhouse-item { padding: 8px; margin-bottom: 5px; background-color: #f0f0f0; border-radius: 6px; cursor: pointer; }
     .skhouse-item:hover { background-color: #e0e0e0; }
     .main { flex: 1; }
-    .filter { margin-bottom: 20px; }
     .placeholder { margin-top: 40px; font-size: 18px; color: #666; }
     .imovel-container { text-align: center; margin-top: 40px; }
     .imovel-grid { display: flex; gap: 40px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
@@ -28,6 +28,7 @@
     .imovel-detalhes th { color: #555; width: 50%; }
     .tags { margin-top: 16px; text-align: center; }
     .tag { display: inline-block; margin: 4px; background-color: #e0f7fa; padding: 6px 12px; border-radius: 20px; font-size: 14px; color: #00796b; }
+    .header-logo { max-width: 200px; margin-bottom: 20px; }
   </style>
 </head>
 <body>
@@ -37,11 +38,9 @@
   </div>
 
   <div class="main">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/QuintoAndar_logo.png" alt="Logo QuintoAndar" class="header-logo">
     <h1>Dossiê de Visitas</h1>
-    <div class="filter">
-      <label for="corretor">Filtrar por ID do Corretor: </label>
-      <input type="text" id="corretor" placeholder="Digite o ID do corretor">
-    </div>
+    <div class="subtitle">Sua Visita</div>
 
     <div id="placeholder" class="placeholder">Bem-vindo ao Dossiê de Visitas do QuintoAndar. Selecione um imóvel ao lado para visualizar os detalhes.</div>
     <div id="imovel" class="imovel-container" style="display: none;"></div>
@@ -80,7 +79,7 @@
           function atualizarDossie(filtro = "", filtroSkhouse = null) {
             skhouseList.innerHTML = "";
             imovelContainer.innerHTML = "";
-            const filtrado = data.filter(linha => String(linha["id_corretor"]).includes(filtro));
+            const filtrado = data;
 
             filtrado.forEach(linha => {
               const div = document.createElement("div");
@@ -171,10 +170,6 @@
               imovelContainer.style.display = "block";
             }
           }
-
-          document.getElementById("corretor").addEventListener("input", (e) => {
-            atualizarDossie(e.target.value);
-          });
 
           atualizarDossie();
         }
