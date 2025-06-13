@@ -53,6 +53,7 @@
     }
     .imovel-imagem {
       max-width: 500px;
+      text-align: left;
     }
     .imovel-imagem img {
       width: 100%;
@@ -74,10 +75,12 @@
       font-size: 20px;
       font-weight: bold;
       margin-top: 8px;
+      text-align: left;
     }
     .imovel-link {
       margin-top: 8px;
       font-size: 15px;
+      text-align: left;
     }
     .imovel-detalhes {
       background-color: #fff;
@@ -99,6 +102,18 @@
     .imovel-detalhes th {
       color: #555;
       width: 50%;
+    }
+    .tags {
+      margin-top: 16px;
+    }
+    .tag {
+      display: inline-block;
+      margin-bottom: 8px;
+      background-color: #e0f7fa;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #00796b;
     }
   </style>
 </head>
@@ -184,6 +199,34 @@
               imagemCol.appendChild(infos);
               imagemCol.appendChild(preco);
               imagemCol.appendChild(link);
+
+              const tags = document.createElement("div");
+              tags.className = "tags";
+
+              const hoje = new Date();
+              const quinzeDiasAtras = new Date(hoje);
+              quinzeDiasAtras.setDate(hoje.getDate() - 15);
+
+              if (Number(imovel["price"]) <= Number(imovel["predicted_price_70"])) {
+                const tag = document.createElement("div");
+                tag.className = "tag";
+                tag.textContent = "💲 Super Preço";
+                tags.appendChild(tag);
+              }
+              if (imovel["last_price_down"] && new Date(imovel["last_price_down"]) >= quinzeDiasAtras) {
+                const tag = document.createElement("div");
+                tag.className = "tag";
+                tag.textContent = "⬇️ Redução recente";
+                tags.appendChild(tag);
+              }
+              if (Number(imovel["vb"]) > 5) {
+                const tag = document.createElement("div");
+                tag.className = "tag";
+                tag.textContent = "⭐ Muitas visitas";
+                tags.appendChild(tag);
+              }
+
+              imagemCol.appendChild(tags);
               grid.appendChild(imagemCol);
 
               const detalhesCol = document.createElement("div");
