@@ -1,1 +1,81 @@
-<h1>Olá, mundo!</h1>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Dossiê de Visitas</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
+    h1 { color: #333; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f0f0f0; }
+    tr:hover { background-color: #eef; }
+    .filter { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Dossiê de Visitas</h1>
+
+  <div class="filter">
+    <label for="corretor">Filtrar por Corretor: </label>
+    <input type="text" id="corretor" placeholder="Digite o nome do corretor">
+  </div>
+
+  <table id="tabela">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function carregarCSV() {
+      const response = await fetch('dados.csv');
+      const csvText = await response.text();
+
+      Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          const data = results.data;
+          const tabela = document.getElementById("tabela");
+          const thead = tabela.querySelector("thead");
+          const tbody = tabela.querySelector("tbody");
+
+          // Cabeçalho
+          const colunas = Object.keys(data[0]);
+          const trHead = document.createElement("tr");
+          colunas.forEach(coluna => {
+            const th = document.createElement("th");
+            th.textContent = coluna;
+            trHead.appendChild(th);
+          });
+          thead.appendChild(trHead);
+
+          // Corpo da tabela
+          function atualizarTabela(filtro = "") {
+            tbody.innerHTML = "";
+            data.filter(linha => linha["Corretor"].toLowerCase().includes(filtro.toLowerCase()))
+                .forEach(linha => {
+              const tr = document.createElement("tr");
+              colunas.forEach(coluna => {
+                const td = document.createElement("td");
+                td.textContent = linha[coluna];
+                tr.appendChild(td);
+              });
+              tbody.appendChild(tr);
+            });
+          }
+
+          document.getElementById("corretor").addEventListener("input", (e) => {
+            atualizarTabela(e.target.value);
+          });
+
+          atualizarTabela();
+        }
+      });
+    }
+
+    carregarCSV();
+  </script>
+</body>
+</html>
