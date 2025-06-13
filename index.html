@@ -11,6 +11,7 @@
       width: 250px;
       background-color: #fff;
       border: 1px solid #ccc;
+      border-radius: 8px;
       padding: 10px;
       margin-right: 20px;
       height: fit-content;
@@ -24,8 +25,11 @@
       padding: 8px;
       margin-bottom: 5px;
       background-color: #f0f0f0;
-      border-radius: 4px;
-      cursor: default;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .skhouse-item:hover {
+      background-color: #e0e0e0;
     }
     .main {
       flex: 1;
@@ -39,7 +43,7 @@
 </head>
 <body>
   <div class="sidebar">
-    <h2>Imóveis (sk_house)</h2>
+    <h2>Imóveis com dossiês</h2>
     <div id="skhouse-list"></div>
   </div>
 
@@ -80,11 +84,24 @@
           });
           thead.appendChild(trHead);
 
-          function atualizarTabela(filtro = "") {
+          function atualizarTabela(filtro = "", filtroSkhouse = null) {
             tbody.innerHTML = "";
             skhouseList.innerHTML = "";
             const filtrado = data.filter(linha => String(linha["id_corretor"]).includes(filtro));
+
             filtrado.forEach(linha => {
+              const div = document.createElement("div");
+              div.className = "skhouse-item";
+              div.textContent = linha["sk_house"];
+              div.addEventListener("click", () => atualizarTabela(filtro, linha["sk_house"]));
+              skhouseList.appendChild(div);
+            });
+
+            const finalFiltrado = filtroSkhouse
+              ? filtrado.filter(linha => linha["sk_house"] === filtroSkhouse)
+              : filtrado;
+
+            finalFiltrado.forEach(linha => {
               const tr = document.createElement("tr");
               colunas.forEach(coluna => {
                 const td = document.createElement("td");
@@ -92,11 +109,6 @@
                 tr.appendChild(td);
               });
               tbody.appendChild(tr);
-
-              const div = document.createElement("div");
-              div.className = "skhouse-item";
-              div.textContent = linha["sk_house"];
-              skhouseList.appendChild(div);
             });
           }
 
