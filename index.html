@@ -121,7 +121,7 @@
 
   <script>
     async function carregarCSV() {
-      const response = await fetch('dados.csv');
+      const response = await fetch('dados.csv?v=' + new Date().getTime());
       const csvText = await response.text();
 
       Papa.parse(csvText, {
