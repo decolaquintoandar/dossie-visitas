@@ -53,7 +53,7 @@
     }
     .imovel-imagem {
       max-width: 500px;
-      text-align: left;
+      text-align: center;
     }
     .imovel-imagem img {
       width: 100%;
@@ -77,12 +77,12 @@
       font-size: 20px;
       font-weight: bold;
       margin-top: 8px;
-      text-align: left;
+      text-align: center;
     }
     .imovel-link {
       margin-top: 8px;
       font-size: 15px;
-      text-align: left;
+      text-align: center;
     }
     .imovel-detalhes {
       background-color: #fff;
@@ -107,11 +107,11 @@
     }
     .tags {
       margin-top: 16px;
-      text-align: right;
+      text-align: center;
     }
     .tag {
       display: inline-block;
-      margin-bottom: 8px;
+      margin: 4px;
       background-color: #e0f7fa;
       padding: 6px 12px;
       border-radius: 20px;
@@ -189,23 +189,8 @@
               infos.className = "imovel-infos";
               infos.textContent = `${imovel["house_total_area"]} m² | ${imovel["house_bedrooms"]} quarto(s) | ${imovel["house_bathrooms"]} ban. | ${imovel["house_garages"]} vaga(s)`;
 
-              const preco = document.createElement("div");
-              preco.className = "imovel-preco";
-              preco.textContent = `R$ ${Number(imovel["price"]).toLocaleString("pt-BR")}`;
-
-              const link = document.createElement("div");
-              link.className = "imovel-link";
-              link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${imovel["sk_house"]}/comprar/" target="_blank">Imóvel da sua visita no site</a>`;
-
-              imagemCol.appendChild(endereco);
-              imagemCol.appendChild(img);
-              imagemCol.appendChild(infos);
-              imagemCol.appendChild(preco);
-              imagemCol.appendChild(link);
-
               const tags = document.createElement("div");
               tags.className = "tags";
-
               const hoje = new Date();
               const quinzeDiasAtras = new Date(hoje);
               quinzeDiasAtras.setDate(hoje.getDate() - 15);
@@ -229,7 +214,20 @@
                 tags.appendChild(tag);
               }
 
+              const preco = document.createElement("div");
+              preco.className = "imovel-preco";
+              preco.textContent = `R$ ${Number(imovel["price"]).toLocaleString("pt-BR")}`;
+
+              const link = document.createElement("div");
+              link.className = "imovel-link";
+              link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${imovel["sk_house"]}/comprar/" target="_blank">Imóvel da sua visita no site</a>`;
+
+              imagemCol.appendChild(endereco);
+              imagemCol.appendChild(img);
+              imagemCol.appendChild(infos);
               imagemCol.appendChild(tags);
+              imagemCol.appendChild(preco);
+              imagemCol.appendChild(link);
               grid.appendChild(imagemCol);
 
               const detalhesCol = document.createElement("div");
