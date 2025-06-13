@@ -74,7 +74,6 @@
   <div class="main">
     <img src="logo_quintoandar.png" alt="Logo QuintoAndar" class="header-logo">
     <h1>Dossiê de Visitas</h1>
-    <div class="subtitle">Sua Visita</div>
 
     <div id="placeholder" class="placeholder">Bem-vindo ao Dossiê de Visitas do QuintoAndar. Selecione um imóvel ao lado para visualizar os detalhes.</div>
     <div id="imovel" class="imovel-container" style="display: none;"></div>
@@ -160,7 +159,7 @@
               imagemCol.className = "imovel-imagem";
               const endereco = document.createElement("div");
               endereco.className = "imovel-endereco";
-              endereco.textContent = `${imovel["house_address"]}, ${imovel["house_neighborhood"]}`;
+              endereco.textContent = `Sua visita em: ${imovel["house_address"]}, ${imovel["house_neighborhood"]}`;
               const img = document.createElement("img");
               img.src = `https://www.quintoandar.com.br/img/${imovel["name"]}`;
               const infos = document.createElement("div");
