@@ -39,6 +39,11 @@
     th { background-color: #f0f0f0; }
     tr:hover { background-color: #eef; }
     .filter { margin-bottom: 20px; }
+    .placeholder {
+      margin-top: 40px;
+      font-size: 18px;
+      color: #666;
+    }
   </style>
 </head>
 <body>
@@ -54,7 +59,8 @@
       <input type="text" id="corretor" placeholder="Digite o ID do corretor">
     </div>
 
-    <table id="tabela">
+    <div id="placeholder" class="placeholder">Bem-vindo ao Dossiê de Visitas do QuintoAndar. Selecione um imóvel ao lado para visualizar os detalhes.</div>
+    <table id="tabela" style="display: none;">
       <thead></thead>
       <tbody></tbody>
     </table>
@@ -74,6 +80,7 @@
           const thead = tabela.querySelector("thead");
           const tbody = tabela.querySelector("tbody");
           const skhouseList = document.getElementById("skhouse-list");
+          const placeholder = document.getElementById("placeholder");
 
           const colunas = Object.keys(data[0]);
           const trHead = document.createElement("tr");
@@ -97,9 +104,13 @@
               skhouseList.appendChild(div);
             });
 
-            const finalFiltrado = filtroSkhouse
-              ? filtrado.filter(linha => linha["sk_house"] === filtroSkhouse)
-              : filtrado;
+            if (!filtroSkhouse) {
+              tabela.style.display = "none";
+              placeholder.style.display = "block";
+              return;
+            }
+
+            const finalFiltrado = filtrado.filter(linha => linha["sk_house"] === filtroSkhouse);
 
             finalFiltrado.forEach(linha => {
               const tr = document.createElement("tr");
@@ -110,6 +121,9 @@
               });
               tbody.appendChild(tr);
             });
+
+            tabela.style.display = "table";
+            placeholder.style.display = "none";
           }
 
           document.getElementById("corretor").addEventListener("input", (e) => {
