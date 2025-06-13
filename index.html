@@ -34,15 +34,26 @@
     .main {
       flex: 1;
     }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background-color: #f0f0f0; }
-    tr:hover { background-color: #eef; }
     .filter { margin-bottom: 20px; }
     .placeholder {
       margin-top: 40px;
       font-size: 18px;
       color: #666;
+    }
+    .imovel-container {
+      text-align: center;
+      margin-top: 40px;
+    }
+    .imovel-container img {
+      max-width: 100%;
+      max-height: 400px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .imovel-infos {
+      margin-top: 12px;
+      font-size: 16px;
+      color: #444;
     }
   </style>
 </head>
@@ -60,10 +71,7 @@
     </div>
 
     <div id="placeholder" class="placeholder">Bem-vindo ao Dossiê de Visitas do QuintoAndar. Selecione um imóvel ao lado para visualizar os detalhes.</div>
-    <table id="tabela" style="display: none;">
-      <thead></thead>
-      <tbody></tbody>
-    </table>
+    <div id="imovel" class="imovel-container" style="display: none;"></div>
   </div>
 
   <script>
@@ -76,61 +84,51 @@
         skipEmptyLines: true,
         complete: function(results) {
           const data = results.data;
-          const tabela = document.getElementById("tabela");
-          const thead = tabela.querySelector("thead");
-          const tbody = tabela.querySelector("tbody");
           const skhouseList = document.getElementById("skhouse-list");
           const placeholder = document.getElementById("placeholder");
+          const imovelContainer = document.getElementById("imovel");
 
-          const colunas = Object.keys(data[0]);
-          const trHead = document.createElement("tr");
-          colunas.forEach(coluna => {
-            const th = document.createElement("th");
-            th.textContent = coluna;
-            trHead.appendChild(th);
-          });
-          thead.appendChild(trHead);
-
-          function atualizarTabela(filtro = "", filtroSkhouse = null) {
-            tbody.innerHTML = "";
+          function atualizarDossie(filtro = "", filtroSkhouse = null) {
             skhouseList.innerHTML = "";
+            imovelContainer.innerHTML = "";
             const filtrado = data.filter(linha => String(linha["id_corretor"]).includes(filtro));
 
             filtrado.forEach(linha => {
               const div = document.createElement("div");
               div.className = "skhouse-item";
               div.textContent = linha["sk_house"];
-              div.addEventListener("click", () => atualizarTabela(filtro, linha["sk_house"]));
+              div.addEventListener("click", () => atualizarDossie(filtro, linha["sk_house"]));
               skhouseList.appendChild(div);
             });
 
             if (!filtroSkhouse) {
-              tabela.style.display = "none";
+              imovelContainer.style.display = "none";
               placeholder.style.display = "block";
               return;
             }
 
-            const finalFiltrado = filtrado.filter(linha => linha["sk_house"] === filtroSkhouse);
+            const imovel = filtrado.find(linha => linha["sk_house"] === filtroSkhouse);
+            if (imovel) {
+              const img = document.createElement("img");
+              img.src = `https://www.quintoandar.com.br/img/${imovel["name"]}`;
 
-            finalFiltrado.forEach(linha => {
-              const tr = document.createElement("tr");
-              colunas.forEach(coluna => {
-                const td = document.createElement("td");
-                td.textContent = linha[coluna];
-                tr.appendChild(td);
-              });
-              tbody.appendChild(tr);
-            });
+              const infos = document.createElement("div");
+              infos.className = "imovel-infos";
+              infos.textContent = `${imovel["area"]} | ${imovel["bedrooms"]} quarto(s) | ${imovel["bathrooms"]} ban. | ${imovel["parking_spaces"]} vaga(s)`;
 
-            tabela.style.display = "table";
-            placeholder.style.display = "none";
+              imovelContainer.appendChild(img);
+              imovelContainer.appendChild(infos);
+
+              placeholder.style.display = "none";
+              imovelContainer.style.display = "block";
+            }
           }
 
           document.getElementById("corretor").addEventListener("input", (e) => {
-            atualizarTabela(e.target.value);
+            atualizarDossie(e.target.value);
           });
 
-          atualizarTabela();
+          atualizarDossie();
         }
       });
     }
