@@ -50,6 +50,11 @@
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+    .imovel-endereco {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
     .imovel-infos {
       margin-top: 12px;
       font-size: 16px;
@@ -109,13 +114,18 @@
 
             const imovel = filtrado.find(linha => linha["sk_house"] === filtroSkhouse);
             if (imovel) {
+              const endereco = document.createElement("div");
+              endereco.className = "imovel-endereco";
+              endereco.textContent = `${imovel["house_address"]}, ${imovel["house_neighborhood"]}`;
+
               const img = document.createElement("img");
               img.src = `https://www.quintoandar.com.br/img/${imovel["name"]}`;
 
               const infos = document.createElement("div");
               infos.className = "imovel-infos";
-              infos.textContent = `${imovel["area"]} | ${imovel["bedrooms"]} quarto(s) | ${imovel["bathrooms"]} ban. | ${imovel["parking_spaces"]} vaga(s)`;
+              infos.textContent = `${imovel["house_total_area"]} | ${imovel["house_bedrooms"]} quarto(s) | ${imovel["house_bathrooms"]} ban. | ${imovel["house_garages"]} vaga(s)`;
 
+              imovelContainer.appendChild(endereco);
               imovelContainer.appendChild(img);
               imovelContainer.appendChild(infos);
 
