@@ -18,8 +18,8 @@
   <h1>Dossiê de Visitas</h1>
 
   <div class="filter">
-    <label for="corretor">Filtrar por Corretor: </label>
-    <input type="text" id="corretor" placeholder="Digite o nome do corretor">
+    <label for="corretor">Filtrar por ID do Corretor: </label>
+    <input type="text" id="corretor" placeholder="Digite o ID do corretor">
   </div>
 
   <table id="tabela">
@@ -54,7 +54,7 @@
           // Corpo da tabela
           function atualizarTabela(filtro = "") {
             tbody.innerHTML = "";
-            data.filter(linha => linha["Corretor"].toLowerCase().includes(filtro.toLowerCase()))
+            data.filter(linha => linha["id_corretor"].toLowerCase().includes(filtro.toLowerCase()))
                 .forEach(linha => {
               const tr = document.createElement("tr");
               colunas.forEach(coluna => {
