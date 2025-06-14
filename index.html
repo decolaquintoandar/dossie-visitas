@@ -47,7 +47,6 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
     .titulo-imovel-visita {
-      text-transform: uppercase;
       font-size: 18px;
       font-weight: bold;
       color: #7f8c8d;
@@ -235,6 +234,11 @@
               detalhesCol.appendChild(tabela);
               grid.appendChild(detalhesCol);
 
+              const tituloSimilares = document.createElement("div");
+              tituloSimilares.className = "titulo-imovel-visita";
+              tituloSimilares.textContent = "Imóveis Similares";
+              imovelContainer.appendChild(tituloSimilares);
+              
               imovelContainer.appendChild(grid);
               placeholder.style.display = "none";
               imovelContainer.style.display = "block";
