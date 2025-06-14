@@ -46,12 +46,22 @@
       text-align: center;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
+    .titulo-imovel-visita {
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: bold;
+      color: #7f8c8d;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 10px;
+      padding-bottom: 4px;
+      text-align: left;
+    }
     .main { flex: 1; }
     .placeholder { margin-top: 40px; font-size: 18px; color: #666; }
     .imovel-container { text-align: center; margin-top: 40px; }
     .imovel-grid { display: flex; gap: 40px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
     .imovel-imagem { max-width: 500px; text-align: center; }
-    .imovel-imagem img { width: 100%; max-height: 400px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+    .imovel-imagem img { width: 400px; max-height: 400px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
     .imovel-endereco { font-weight: bold; font-size: 18px; margin-bottom: 10px; text-align: center; }
     .imovel-infos { margin-top: 12px; font-size: 16px; color: #444; text-align: center; }
     .imovel-preco { font-size: 20px; font-weight: bold; margin-top: 8px; text-align: center; }
@@ -155,6 +165,9 @@
               const grid = document.createElement("div");
               grid.className = "imovel-grid";
 
+              const tituloSessao = document.createElement("div");
+              tituloSessao.className = "titulo-imovel-visita";
+              tituloSessao.textContent = "IMÓVEL DA VISITA";
               const imagemCol = document.createElement("div");
               imagemCol.className = "imovel-imagem";
               const endereco = document.createElement("div");
@@ -181,6 +194,7 @@
               link.className = "imovel-link";
               link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${imovel["sk_house"]}/comprar/" target="_blank">Imóvel da sua visita no site</a>`;
 
+              imagemCol.appendChild(tituloSessao);
               imagemCol.appendChild(endereco);
               imagemCol.appendChild(img);
               imagemCol.appendChild(infos);
