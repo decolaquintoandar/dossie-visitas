@@ -302,19 +302,25 @@
                 valor.textContent = formatarReais(preco);
                 card.appendChild(valor);
               
-                const tags = document.createElement("div");
-                tags.style.fontSize = "13px";
-                tags.style.margin = "6px 0";
-                [tag1, tag2, tag3].forEach(tag => {
-                  if (tag) {
+                const tagsArray = [tag1, tag2, tag3].filter(tag => tag && tag.trim() !== "");
+                if (tagsArray.length > 0) {
+                  const tags = document.createElement("div");
+                  tags.style.fontSize = "13px";
+                  tags.style.margin = "6px 0";
+                  tags.style.display = "flex";
+                  tags.style.flexWrap = "wrap";
+                  tags.style.gap = "4px";
+                
+                  tagsArray.forEach(tag => {
                     const span = document.createElement("div");
                     span.className = "tag";
                     span.textContent = tag;
                     tags.appendChild(span);
-                  }
-                });
-                card.appendChild(tags);
-              
+                  });
+                
+                  card.appendChild(tags);
+                }
+
                 const link = document.createElement("div");
                 link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${idImovel}/comprar/" target="_blank">🔗 Clique para acessar o imóvel!</a>`;
                 link.style.marginTop = "10px";
