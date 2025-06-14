@@ -286,7 +286,7 @@
                 titulo.style.fontWeight = "bold";
                 titulo.style.textAlign = "center";
                 titulo.style.width = "100%";
-                titulo.style.borderRadius = "10px"
+                titulo.style.borderRadius = "10px";
                 titulo.style.marginBottom: "10px";
                 card.appendChild(titulo);
                               
@@ -322,7 +322,15 @@
                   tagsArray.forEach(tag => {
                     const span = document.createElement("div");
                     span.className = "tag";
-                    span.textContent = tag;
+                    if (tag.includes("Super preço")) {
+                      span.textContent = "💲 " + tag;
+                    } else if (tag.includes("Redução")) {
+                      span.textContent = "⬇️ " + tag;
+                    } else if (tag.includes("Muitas visitas")) {
+                      span.textContent = "⭐ " + tag;
+                    } else {
+                      span.textContent = tag;
+                    }
                     tags.appendChild(span);
                   });
                 
