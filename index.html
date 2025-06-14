@@ -255,11 +255,12 @@
               
               // Percorre de similar_1 até similar_9
               for (let i = 1; i <= 9; i++) {
-                const campo = imovel[`similar_${i}`];
-                if (!campo || !campo.includes("/")) continue;
+                const foto = imovel[`similar listing ${i}`];
+                const infoCampo = imovel[`similar listing info ${i}`];
+                if (!foto || !infoCampo || !infoCampo.includes("/")) continue;
               
-                const partes = campo.split("/");
-                const [distancia, foto, info, endereco, preco, tag1, tag2, tag3] = partes;
+                const partes = infoCampo.split("/");
+                const [distancia, , info, endereco, preco, tag1, tag2, tag3] = partes;
               
                 const card = document.createElement("div");
                 card.className = "imovel-detalhes";
@@ -276,7 +277,7 @@
                 const titulo = document.createElement("div");
                 titulo.style.fontWeight = "bold";
                 titulo.style.margin = "8px 0 4px";
-                titulo.textContent = distancia < 0.1 ? "MESMO CONDOMÍNIO" : "MENOS DE 500M DISTANTE";
+                titulo.textContent = parseFloat(distancia) < 0.1 ? "MESMO CONDOMÍNIO" : "MENOS DE 500M DISTANTE";
                 card.appendChild(titulo);
               
                 const infos = document.createElement("div");
@@ -319,7 +320,7 @@
               
                 similaresGrid.appendChild(card);
               }
-              
+
               imovelContainer.appendChild(similaresGrid);
               
               placeholder.style.display = "none";
