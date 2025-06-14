@@ -278,11 +278,17 @@
                 card.appendChild(imagem);
               
                 const titulo = document.createElement("div");
-                titulo.style.fontWeight = "bold";
+                titulo.textContent = distancia.substring(3);
+                titulo.style.backgroundColor = "#e0f7fa";
+                titulo.style.color = "#00796b";
+                titulo.style.padding = "6px 12px";
+                titulo.style.borderRadius = "16px";
+                titulo.style.fontSize = "14px";
+                titulo.style.display = "inline-block";
                 titulo.style.margin = "8px 0 4px";
-                titulo.textContent = distancia;
+                titulo.style.boxShadow = "0 1px 4px rgba(0, 0, 0, 0.1)";
                 card.appendChild(titulo);
-              
+                              
                 const infos = document.createElement("div");
                 infos.style.fontSize = "14px";
                 infos.style.color = "#555";
