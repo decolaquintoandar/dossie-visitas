@@ -72,6 +72,15 @@
     .tags { margin-top: 16px; text-align: center; }
     .tag { display: inline-block; margin: 4px; background-color: #e0f7fa; padding: 6px 12px; border-radius: 20px; font-size: 14px; color: #00796b; }
     .header-logo { max-width: 200px; margin-bottom: 20px; background-color: #f9f9f9; padding: 8px; border-radius: 8px; }
+    .similares-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+    .card-similar { background: white; border-radius: 6px; width: 280px; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding-bottom: 12px; }
+    .card-similar img { width: 100%; border-top-left-radius: 6px; border-top-right-radius: 6px; height: 180px; object-fit: cover; }
+    .card-similar .titulo { font-weight: bold; background-color: #f6f6f6; padding: 6px 0; }
+    .card-similar .info, .card-similar .endereco, .card-similar .preco, .card-similar .tags, .card-similar .link { padding: 4px 10px; font-size: 14px; }
+    .card-similar .preco { font-weight: bold; font-size: 16px; margin-top: 4px; }
+    .card-similar .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+    .card-similar .tag { font-size: 12px; padding: 4px 8px; }
+    .card-similar .link a { text-decoration: none; color: #0077cc; font-size: 14px; display: flex; align-items: center; gap: 4px; }
   </style>
 </head>
 <body>
@@ -240,6 +249,64 @@
               tituloSimilares.className = "titulo-imovel-visita";
               tituloSimilares.textContent = "Imóveis Similares";
               imovelContainer.appendChild(tituloSimilares);
+
+              const similaresGrid = document.createElement("div");
+              similaresGrid.className = "similares-grid";
+              
+              for (let i = 1; i <= 9; i++) {
+                const similarData = imovel[`similar listing ${i} - info`];
+                const similarId = imovel[`similar listing ${i}`];
+                if (similarData && similarId) {
+                  const partes = similarData.split("/").map(p => p.trim());
+                  const [distancia, foto, infos, endereco, preco, tag1, tag2, tag3] = partes;
+              
+                  const card = document.createElement("div");
+                  card.className = "card-similar";
+              
+                  const img = document.createElement("img");
+                  img.src = `https://www.quintoandar.com.br/img/${foto}`;
+                  card.appendChild(img);
+              
+                  const titulo = document.createElement("div");
+                  titulo.className = "titulo";
+                  titulo.textContent = distancia;
+                  card.appendChild(titulo);
+              
+                  const info = document.createElement("div");
+                  info.className = "info";
+                  info.textContent = infos;
+                  card.appendChild(info);
+              
+                  const end = document.createElement("div");
+                  end.className = "endereco";
+                  end.textContent = endereco;
+                  card.appendChild(end);
+              
+                  const valor = document.createElement("div");
+                  valor.className = "preco";
+                  valor.textContent = preco;
+                  card.appendChild(valor);
+              
+                  const tags = document.createElement("div");
+                  tags.className = "tags";
+                  [tag1, tag2, tag3].forEach(t => {
+                    if (t) {
+                      const tag = document.createElement("div");
+                      tag.className = "tag";
+                      tag.textContent = t.trim();
+                      tags.appendChild(tag);
+                    }
+                  });
+                  card.appendChild(tags);
+              
+                  const link = document.createElement("div");
+                  link.className = "link";
+                  link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${similarId}/comprar/" target="_blank">🔗 Clique para acessar o imóvel!</a>`;
+                  card.appendChild(link);
+              
+                  similaresGrid.appendChild(card);
+  }
+}
               
               placeholder.style.display = "none";
               imovelContainer.style.display = "block";
