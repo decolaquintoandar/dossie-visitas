@@ -48,7 +48,7 @@
     }
     .titulo-imovel-visita {
       text-transform: uppercase;
-      font-size: 12px;
+      font-size: 18px;
       font-weight: bold;
       color: #7f8c8d;
       border-bottom: 1px solid #ccc;
@@ -162,12 +162,15 @@
 
             const imovel = data.find(l => l["sk_house"] === filtroSkhouse);
             if (imovel) {
+              const tituloSessao = document.createElement("div");
+              tituloSessao.className = "titulo-imovel-visita";
+              tituloSessao.textContent = "Imóvel da visita";
+              
+              imovelContainer.appendChild(tituloSessao);
+              
               const grid = document.createElement("div");
               grid.className = "imovel-grid";
 
-              const tituloSessao = document.createElement("div");
-              tituloSessao.className = "titulo-imovel-visita";
-              tituloSessao.textContent = "IMÓVEL DA VISITA";
               const imagemCol = document.createElement("div");
               imagemCol.className = "imovel-imagem";
               const endereco = document.createElement("div");
@@ -193,8 +196,7 @@
               const link = document.createElement("div");
               link.className = "imovel-link";
               link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${imovel["sk_house"]}/comprar/" target="_blank">Imóvel da sua visita no site</a>`;
-
-              imagemCol.appendChild(tituloSessao);
+              
               imagemCol.appendChild(endereco);
               imagemCol.appendChild(img);
               imagemCol.appendChild(infos);
