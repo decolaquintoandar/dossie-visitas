@@ -255,12 +255,13 @@
               
               // Percorre de similar_1 até similar_9
               for (let i = 1; i <= 9; i++) {
-                const foto = imovel[`similar listing ${i}`];
+                const idImovel = imovel[`similar listing ${i}`];
                 const infoCampo = imovel[`similar listing info ${i}`];
-                if (!foto || !infoCampo || !infoCampo.includes("/")) continue;
+              
+                if (!idImovel || !infoCampo || !infoCampo.includes("/")) continue;
               
                 const partes = infoCampo.split("/");
-                const [distancia, , info, endereco, preco, tag1, tag2, tag3] = partes;
+                const [distancia, fotoUrl, info, endereco, preco, tag1, tag2, tag3] = partes;
               
                 const card = document.createElement("div");
                 card.className = "imovel-detalhes";
@@ -268,7 +269,7 @@
                 card.style.textAlign = "center";
               
                 const imagem = document.createElement("img");
-                imagem.src = `https://www.quintoandar.com.br/img/${foto}`;
+                imagem.src = `https://www.quintoandar.com.br/img/${fotoUrl}`;
                 imagem.style.width = "100%";
                 imagem.style.borderRadius = "4px";
                 imagem.style.marginBottom = "8px";
@@ -313,7 +314,7 @@
                 card.appendChild(tags);
               
                 const link = document.createElement("div");
-                link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${foto}/comprar/" target="_blank">🔗 Clique para acessar o imóvel!</a>`;
+                link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${idImovel}/comprar/" target="_blank">🔗 Clique para acessar o imóvel!</a>`;
                 link.style.marginTop = "10px";
                 link.style.fontSize = "14px";
                 card.appendChild(link);
