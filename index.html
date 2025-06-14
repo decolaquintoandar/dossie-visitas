@@ -251,60 +251,77 @@
               imovelContainer.appendChild(tituloSimilares);
 
               const similaresGrid = document.createElement("div");
-              similaresGrid.className = "similares-grid";
+              similaresGrid.className = "imovel-grid";
               
+              // Percorre de similar_1 até similar_9
               for (let i = 1; i <= 9; i++) {
-                const similarData = imovel[`similar listing ${i} - info`];
-                const similarId = imovel[`similar listing ${i}`];
-                if (similarData && similarId) {
-                  const partes = similarData.split("/").map(p => p.trim());
-                  const [distancia, foto, infos, endereco, preco, tag1, tag2, tag3] = partes;
+                const campo = imovel[`similar_${i}`];
+                if (!campo || !campo.includes("/")) continue;
               
-                  const card = document.createElement("div");
-                  card.className = "card-similar";
+                const partes = campo.split("/");
+                const [distancia, foto, info, endereco, preco, tag1, tag2, tag3] = partes;
               
-                  const img = document.createElement("img");
-                  img.src = `https://www.quintoandar.com.br/img/${foto}`;
-                  card.appendChild(img);
+                const card = document.createElement("div");
+                card.className = "imovel-detalhes";
+                card.style.width = "280px";
+                card.style.textAlign = "center";
               
-                  const titulo = document.createElement("div");
-                  titulo.className = "titulo";
-                  titulo.textContent = distancia;
-                  card.appendChild(titulo);
+                const imagem = document.createElement("img");
+                imagem.src = `https://www.quintoandar.com.br/img/${foto}`;
+                imagem.style.width = "100%";
+                imagem.style.borderRadius = "4px";
+                imagem.style.marginBottom = "8px";
+                card.appendChild(imagem);
               
-                  const info = document.createElement("div");
-                  info.className = "info";
-                  info.textContent = infos;
-                  card.appendChild(info);
+                const titulo = document.createElement("div");
+                titulo.style.fontWeight = "bold";
+                titulo.style.margin = "8px 0 4px";
+                titulo.textContent = distancia < 0.1 ? "MESMO CONDOMÍNIO" : "MENOS DE 500M DISTANTE";
+                card.appendChild(titulo);
               
-                  const end = document.createElement("div");
-                  end.className = "endereco";
-                  end.textContent = endereco;
-                  card.appendChild(end);
+                const infos = document.createElement("div");
+                infos.style.fontSize = "14px";
+                infos.style.color = "#555";
+                infos.textContent = info;
+                card.appendChild(infos);
               
-                  const valor = document.createElement("div");
-                  valor.className = "preco";
-                  valor.textContent = preco;
-                  card.appendChild(valor);
+                const end = document.createElement("div");
+                end.style.fontSize = "14px";
+                end.style.color = "#333";
+                end.style.margin = "6px 0";
+                end.textContent = endereco;
+                card.appendChild(end);
               
-                  const tags = document.createElement("div");
-                  tags.className = "tags";
-                  [tag1, tag2, tag3].forEach(t => {
-                    if (t) {
-                      const tag = document.createElement("div");
-                      tag.className = "tag";
-                      tag.textContent = t.trim();
-                      tags.appendChild(tag);
-                    }
-                  });
-                  card.appendChild(tags);
+                const valor = document.createElement("div");
+                valor.style.fontWeight = "bold";
+                valor.style.marginTop = "4px";
+                valor.textContent = formatarReais(preco);
+                card.appendChild(valor);
               
-                  const link = document.createElement("div");
-                  link.className = "link";
-                  link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${similarId}/comprar/" target="_blank">🔗 Clique para acessar o imóvel!</a>`;
-                  card.appendChild(link);
+                const tags = document.createElement("div");
+                tags.style.fontSize = "13px";
+                tags.style.margin = "6px 0";
+                [tag1, tag2, tag3].forEach(tag => {
+                  if (tag) {
+                    const span = document.createElement("div");
+                    span.className = "tag";
+                    span.textContent = tag;
+                    tags.appendChild(span);
+                  }
+                });
+                card.appendChild(tags);
               
-                  similaresGrid.appendChild(card);
+                const link = document.createElement("div");
+                link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${foto}/comprar/" target="_blank">🔗 Clique para acessar o imóvel!</a>`;
+                link.style.marginTop = "10px";
+                link.style.fontSize = "14px";
+                card.appendChild(link);
+              
+                similaresGrid.appendChild(card);
+              }
+              
+              imovelContainer.appendChild(similaresGrid);
+
   }
 }
               
