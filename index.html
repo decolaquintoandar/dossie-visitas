@@ -233,13 +233,14 @@
               });
               detalhesCol.appendChild(tabela);
               grid.appendChild(detalhesCol);
+              
+              imovelContainer.appendChild(grid);
 
               const tituloSimilares = document.createElement("div");
               tituloSimilares.className = "titulo-imovel-visita";
               tituloSimilares.textContent = "Imóveis Similares";
               imovelContainer.appendChild(tituloSimilares);
               
-              imovelContainer.appendChild(grid);
               placeholder.style.display = "none";
               imovelContainer.style.display = "block";
             }
