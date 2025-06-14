@@ -280,7 +280,7 @@
                 const titulo = document.createElement("div");
                 titulo.style.fontWeight = "bold";
                 titulo.style.margin = "8px 0 4px";
-                titulo.textContent = parseFloat(distancia) < 0.1 ? "MESMO CONDOMÍNIO" : "MENOS DE 500M DISTANTE";
+                titulo.textContent = distancia;
                 card.appendChild(titulo);
               
                 const infos = document.createElement("div");
@@ -310,6 +310,7 @@
                   tags.style.display = "flex";
                   tags.style.flexWrap = "wrap";
                   tags.style.gap = "4px";
+                  tags.style.justifyContent = "center";
                 
                   tagsArray.forEach(tag => {
                     const span = document.createElement("div");
@@ -321,11 +322,32 @@
                   card.appendChild(tags);
                 }
 
-                const link = document.createElement("div");
-                link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${idImovel}/comprar/" target="_blank">🔗 Clique para acessar o imóvel!</a>`;
-                link.style.marginTop = "10px";
+                const linkWrapper = document.createElement("div");
+                linkWrapper.style.marginTop = "12px";
+                linkWrapper.style.textAlign = "center";
+                
+                const link = document.createElement("a");
+                link.href = `https://www.quintoandar.com.br/imovel/${idImovel}/comprar/`;
+                link.target = "_blank";
+                link.textContent = "Clique para acessar o imóvel!";
+                link.style.display = "inline-flex";
+                link.style.alignItems = "center";
+                link.style.gap = "6px";
+                link.style.textDecoration = "none";
+                link.style.color = "#0077cc";
+                link.style.fontWeight = "bold";
                 link.style.fontSize = "14px";
-                card.appendChild(link);
+                
+                link.addEventListener("mouseover", () => link.style.color = "#005fa3");
+                link.addEventListener("mouseout", () => link.style.color = "#0077cc");
+                
+                const icon = document.createElement("span");
+                icon.textContent = "🔗";
+                link.prepend(icon);
+                
+                linkWrapper.appendChild(link);
+                card.appendChild(linkWrapper);
+
               
                 similaresGrid.appendChild(card);
               }
