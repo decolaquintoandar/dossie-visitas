@@ -262,7 +262,9 @@
               
                 const partes = infoCampo.split("/");
                 const [distancia, fotoUrl, info, endereco, preco, tag1, tag2, tag3] = partes;
-              
+
+                const fotoUrl = fotoUrlRaw.trim();
+                
                 const card = document.createElement("div");
                 card.className = "imovel-detalhes";
                 card.style.width = "280px";
