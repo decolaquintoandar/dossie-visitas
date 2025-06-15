@@ -55,6 +55,19 @@
       padding-bottom: 4px;
       text-align: left;
     }
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      background: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 20px;
+      cursor: pointer;
+    }
     .main { flex: 1; }
     .placeholder { margin-top: 40px; font-size: 18px; color: #666; }
     .imovel-container { text-align: center; margin-top: 40px; }
@@ -88,6 +101,8 @@
     <h2>Imóveis com dossiês</h2>
     <div id="skhouse-list"></div>
   </div>
+
+  <button id="toggleSidebar" title="Mostrar/ocultar lista">≡</button>
 
   <div class="main">
     <img src="logo_quintoandar.png" alt="Logo QuintoAndar" class="header-logo">
@@ -380,6 +395,14 @@
     }
 
     carregarCSV();
+    
+    document.getElementById("toggleSidebar").addEventListener("click", () => {
+    const sidebar = document.querySelector(".sidebar");
+    const toggleBtn = document.getElementById("toggleSidebar");
+    sidebar.classList.toggle("hidden");
+    toggleBtn.classList.toggle("collapsed");
+    });
+    
   </script>
 </body>
 </html>
