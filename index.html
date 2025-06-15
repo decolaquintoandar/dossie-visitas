@@ -114,7 +114,7 @@
     .card-similar .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
     .card-similar .tag { font-size: 12px; padding: 4px 8px; }
     .card-similar .link a { text-decoration: none; color: #0077cc; font-size: 14px; display: flex; align-items: center; gap: 4px; }
-    .imagem-similar {width: 100%; height: 260px; object-fit: cover; border-top-left-radius: 6px; border-top-right-radius: 6px; margin-bottom: 8px;}
+    .imagem-similar {width: 100%; height: 260px; object-fit: cover; border-top-left-radius: 6px; border-top-right-radius: 6px; margin-bottom: 8px; aspect-ratio: 1 / 1;}
   </style>
 </head>
 <body>
@@ -312,9 +312,7 @@
               
                 const imagem = document.createElement("img");
                 imagem.src = `https://www.quintoandar.com.br/img/${fotoUrl}`;
-                imagem.style.width = "100%";
-                imagem.style.borderRadius = "4px";
-                imagem.style.marginBottom = "8px";
+                imagem.className = "imagem-similar";
                 card.appendChild(imagem);
               
                 const titulo = document.createElement("div");
