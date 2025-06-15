@@ -105,7 +105,9 @@
     <div id="skhouse-list"></div>
   </div>
 
-  <button id="toggleSidebar" title="Mostrar/ocultar lista">≡</button>
+  <button id="toggleSidebar" title="Mostrar/ocultar lista">
+    <span id="toggleIcon" style="display: inline-block; transition: transform 0.3s;">⬅️</span>
+  </button>
 
   <div class="main">
     <img src="logo_quintoandar.png" alt="Logo QuintoAndar" class="header-logo">
@@ -201,7 +203,7 @@
               imagemCol.className = "imovel-imagem";
               const endereco = document.createElement("div");
               endereco.className = "imovel-endereco";
-              endereco.textContent = `Sua visita em: ${imovel["house_address"]}, ${imovel["house_neighborhood"]}`;
+              endereco.textContent = `${imovel["house_address"]}, ${imovel["house_neighborhood"]}`;
               const img = document.createElement("img");
               img.src = `https://www.quintoandar.com.br/img/${imovel["name"]}`;
               const infos = document.createElement("div");
@@ -389,6 +391,7 @@
               
               placeholder.style.display = "none";
               imovelContainer.style.display = "block";
+              document.querySelector(".sidebar").classList.add("hidden");
             }
           }
 
@@ -404,6 +407,13 @@
     const toggleBtn = document.getElementById("toggleSidebar");
     sidebar.classList.toggle("hidden");
     toggleBtn.classList.toggle("collapsed");
+
+    const icon = document.getElementById("toggleIcon");
+    if (sidebar.classList.contains("hidden")) {
+      icon.style.transform = "rotate(180deg)";
+    } else {
+    icon.style.transform = "rotate(0deg)";
+    }
     });
     
   </script>
