@@ -175,7 +175,8 @@
           function atualizarDossie(filtro = "", filtroSkhouse = null) {
             skhouseList.innerHTML = "";
             imovelContainer.innerHTML = "";
-
+            skhouseSelecionado = filtroSkhouse;
+            
             const hoje = new Date();
             const hojeStr = hoje.toISOString().split('T')[0];
             const amanha = new Date(hoje);
@@ -222,7 +223,6 @@
 
             const imovel = data.find(l => l["sk_house"] === filtroSkhouse);
             if (imovel) {
-              skhouseSelecionado = filtroSkhouse;
               const tituloSessao = document.createElement("div");
               tituloSessao.className = "titulo-imovel-visita";
               tituloSessao.textContent = "Imóvel da visita";
