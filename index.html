@@ -197,6 +197,9 @@
               lista.forEach(linha => {
                 const div = document.createElement("div");
                 div.className = "skhouse-item";
+                if (linha["sk_house"] === skhouseSelecionado) {
+                  div.classList.add("selected");
+                }
                 div.textContent = linha["sk_house"];
                 div.addEventListener("click", () => {
                   document.querySelectorAll(".skhouse-item").forEach(el => el.classList.remove("selected"));
@@ -219,6 +222,7 @@
 
             const imovel = data.find(l => l["sk_house"] === filtroSkhouse);
             if (imovel) {
+              skhouseSelecionado = filtroSkhouse;
               const tituloSessao = document.createElement("div");
               tituloSessao.className = "titulo-imovel-visita";
               tituloSessao.textContent = "Imóvel da visita";
@@ -428,7 +432,7 @@
         }
       });
     }
-
+    let skhouseSelecionado = null;
     carregarCSV();
     
   document.getElementById("toggleSidebar").addEventListener("click", () => {
