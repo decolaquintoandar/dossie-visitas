@@ -25,15 +25,19 @@
       margin-bottom: 10px;
     }
     .skhouse-item {
-      padding: 10px 8px;
+      padding: 10px;
       margin-bottom: 6px;
       background-color: #f0f0f0;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
-      min-height: 45px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: #333;
+      text-align: center;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      transition: background-color 0.2s;
     }
     .skhouse-item:hover {
       background-color: #e0e0e0;
@@ -129,6 +133,7 @@
 <body>
   <div class="sidebar">
     <h2>Imóveis com dossiês</h2>
+    <div style="font-size: 13px; color: #555; margin-bottom: 12px;">🏘️ Similares no mesmo condomínio</div>
     <div id="skhouse-list"></div>
   </div>
 
