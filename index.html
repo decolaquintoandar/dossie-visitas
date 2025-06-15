@@ -201,7 +201,17 @@
                 if (linha["sk_house"] === skhouseSelecionado) {
                   div.classList.add("selected");
                 }
-                div.textContent = linha["sk_house"];
+                let temMesmoCondominio = false;
+                for (let i = 1; i <= 9; i++) {
+                  const info = linha[`similar listing info ${i}`];
+                  if (info && info.includes(linha["house_address"])) {
+                    temMesmoCondominio = true;
+                    break;
+                  }
+                }
+                
+                const enderecoTexto = `${linha["house_address"]}, ${linha["house_neighborhood"]}`;
+                div.textContent = temMesmoCondominio ? `🏢 ${enderecoTexto}` : enderecoTexto;
                 div.addEventListener("click", () => {
                   document.querySelectorAll(".skhouse-item").forEach(el => el.classList.remove("selected"));
                   div.classList.add("selected");
