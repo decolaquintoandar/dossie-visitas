@@ -205,14 +205,15 @@
                 if (linha["sk_house"] === skhouseSelecionado) {
                   div.classList.add("selected");
                 }
-                let temMesmoCondominio = false;
-                for (let i = 1; i <= 9; i++) {
-                  const info = linha[`similar listing info ${i}`];
-                  if (info && info.includes(linha["house_address"])) {
-                    temMesmoCondominio = true;
-                    break;
-                  }
-                }
+                const temMesmoCondominio = data.some(outro =>
+                  outro["sk_house"] !== linha["sk_house"] &&
+                  Array.from({ length: 9 }, (_, i) => outro[`similar listing info ${i + 1}`])
+                    .filter(info => info && info.includes("/"))
+                    .some(info => {
+                      const primeiroParametro = info.split("/")[0].trim().toLowerCase();
+                      return primeiroParametro.includes("mesmo condomínio") && info.includes(linha["sk_house"]);
+                    })
+                );
                 
                 const enderecoTexto = `${linha["house_address"]}, ${linha["house_neighborhood"]}`;
                 div.innerHTML = `
