@@ -34,6 +34,11 @@
     .skhouse-item:hover {
       background-color: #e0e0e0;
     }
+    .skhouse-item.selected {
+      background-color: #e3f2fd;
+      border-left: 4px solid #2196f3; 
+      font-weight: bold;
+    }
     .skhouse-section-title {
       margin: 14px 0 8px;
       font-size: 13px;
@@ -193,7 +198,11 @@
                 const div = document.createElement("div");
                 div.className = "skhouse-item";
                 div.textContent = linha["sk_house"];
-                div.addEventListener("click", () => atualizarDossie("", linha["sk_house"]));
+                div.addEventListener("click", () => {
+                  document.querySelectorAll(".skhouse-item").forEach(el => el.classList.remove("selected"));
+                  div.classList.add("selected");
+                  atualizarDossie("", linha["sk_house"]);
+                });
                 skhouseList.appendChild(div);
               });
             }
