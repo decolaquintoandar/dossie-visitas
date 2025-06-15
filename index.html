@@ -158,6 +158,11 @@
       return d instanceof Date && !isNaN(d) ? d.toLocaleDateString("pt-BR") : dataStr;
     }
 
+    function getParametroUrl(nome) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(nome);
+    }
+
     function formatarReais(valor) {
       return valor ? `R$ ${Number(valor).toLocaleString("pt-BR")}` : "-";
     }
@@ -184,6 +189,12 @@
           function atualizarDossie(filtro = "", filtroSkhouse = null) {
             skhouseList.innerHTML = "";
             imovelContainer.innerHTML = "";
+
+            const corretorFiltrado = getParametroUrl("corretor");
+            const dataFiltrada = corretorFiltrado
+              ? data.filter(item => item["id_corretor"] === corretorFiltrado)
+              : data;
+            
             skhouseSelecionado = filtroSkhouse;
             
             const hoje = new Date();
@@ -192,9 +203,9 @@
             amanha.setDate(hoje.getDate() + 1);
             const amanhaStr = amanha.toISOString().split('T')[0];
 
-            const visitasHoje = data.filter(l => l["dt_visita"] === hojeStr);
-            const visitasAmanha = data.filter(l => l["dt_visita"] === amanhaStr);
-            const outrasVisitas = data.filter(l => l["dt_visita"] !== hojeStr && l["dt_visita"] !== amanhaStr)
+            const visitasHoje = dataFiltrada.filter(l => l["dt_visita"] === hojeStr);
+            const visitasAmanha = dataFiltrada.filter(l => l["dt_visita"] === amanhaStr);
+            const outrasVisitas = dataFiltrada.filter(l => l["dt_visita"] !== hojeStr && l["dt_visita"] !== amanhaStr)
                                        .sort((a, b) => new Date(a["dt_visita"]) - new Date(b["dt_visita"]));
 
             function adicionarSecao(titulo, lista) {
@@ -246,7 +257,7 @@
               return;
             }
 
-            const imovel = data.find(l => l["sk_house"] === filtroSkhouse);
+            const imovel = dataFiltrada.find(l => l["sk_house"] === filtroSkhouse);
             if (imovel) {
               const tituloSessao = document.createElement("div");
               tituloSessao.className = "titulo-imovel-visita";
