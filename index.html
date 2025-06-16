@@ -474,8 +474,27 @@
     }
     let skhouseSelecionado = null;
     carregarCSV();
+
+    window.onload = () => {
+      const url = new URL(window.location.href);
+      const corretorParam = url.searchParams.get("corretor");
     
-  document.getElementById("toggleSidebar").addEventListener("click", () => {
+      if (!corretorParam) {
+        const entrada = prompt("Digite o ID do corretor ou a senha:");
+    
+        if (entrada === "decolaseusclientes") {
+          // Deixa o acesso livre, não faz nada
+        } else if (entrada && !isNaN(entrada)) {
+          // Se for um número, redireciona com o parâmetro do corretor
+          url.searchParams.set("corretor", entrada);
+          window.location.href = url.toString();
+        } else {
+          alert("Acesso negado. Atualize a página e tente novamente.");
+        }
+      }
+    };
+    
+    document.getElementById("toggleSidebar").addEventListener("click", () => {
     const sidebar = document.querySelector(".sidebar");
     const toggleIcon = document.querySelector("#toggleSidebar svg");
   
