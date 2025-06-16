@@ -507,16 +507,12 @@
         document.querySelector(".main").style.display = "block";
         document.getElementById("login-container").style.display = "none";
         carregarCSV();
+      } else {
+        // Mostra apenas a tela de login
+        document.querySelector(".main").style.display = "block";
+        document.getElementById("login-container").style.display = "block";
       }
     };
-    
-    document.getElementById("toggleSidebar").addEventListener("click", () => {
-    const sidebar = document.querySelector(".sidebar");
-    const toggleIcon = document.querySelector("#toggleSidebar svg");
-  
-    sidebar.classList.toggle("hidden");
-    toggleIcon.style.transform = sidebar.classList.contains("hidden") ? "rotate(180deg)" : "rotate(0deg)";
-  });
 
     
   </script>
