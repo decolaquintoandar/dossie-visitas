@@ -514,7 +514,20 @@
       }
     };
 
+    document.getElementById("toggleSidebar").addEventListener("click", () => {
+      const sidebar = document.querySelector(".sidebar");
+      const icon = document.getElementById("toggleIcon");
     
+      const isHidden = sidebar.classList.contains("hidden");
+    
+      if (isHidden) {
+        sidebar.classList.remove("hidden");
+        icon.style.transform = "rotate(0deg)";
+      } else {
+        sidebar.classList.add("hidden");
+        icon.style.transform = "rotate(180deg)";
+      }
+    });
   </script>
 </body>
 </html>
