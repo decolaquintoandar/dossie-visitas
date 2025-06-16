@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Dossiê de Visitas</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; display: flex; }
     h1 { color: #333; margin-bottom: 0; }
@@ -521,51 +520,38 @@
         document.getElementById("login-container").style.display = "block";
       }
     };
-
-    document.getElementById("toggleSidebar").addEventListener("click", () => {
-      const sidebar = document.querySelector(".sidebar");
-      const icon = document.getElementById("toggleIcon");
     
-      const isHidden = sidebar.classList.contains("hidden");
+      document.getElementById("toggleSidebar").addEventListener("click", () => {
+          const sidebar = document.querySelector(".sidebar");
+          const icon = document.getElementById("toggleIcon");
+        
+          const isHidden = sidebar.classList.contains("hidden");
+        
+          if (isHidden) {
+            sidebar.classList.remove("hidden");
+            icon.style.transform = "rotate(0deg)";
+          } else {
+            sidebar.classList.add("hidden");
+            icon.style.transform = "rotate(180deg)";
+          }
+        });
     
-      if (isHidden) {
-        sidebar.classList.remove("hidden");
-        icon.style.transform = "rotate(0deg)";
-      } else {
-        sidebar.classList.add("hidden");
-        icon.style.transform = "rotate(180deg)";
-      }
-    });
-
     document.getElementById("btnCompartilhar").addEventListener("click", async () => {
       const sidebar = document.querySelector(".sidebar");
       const toggleBtn = document.getElementById("toggleSidebar");
       const compartilharBtn = document.getElementById("btnCompartilhar");
-      const main = document.querySelector(".main");
-  
-      // Oculta a sidebar e botões
+    
+      // Oculta elementos desnecessários
       sidebar.style.display = "none";
       toggleBtn.style.display = "none";
       compartilharBtn.style.display = "none";
-  
-      // Aguarda a renderização sem sidebar
+    
+      // Aguarda um pequeno delay para renderização
       await new Promise(r => setTimeout(r, 300));
-  
-      // Captura como imagem
-      const canvas = await html2canvas(main, { scale: 2 });
-      const imageData = canvas.toDataURL("image/png");
-  
-      // Cria link de download
-      const link = document.createElement("a");
-      link.href = imageData;
-      link.download = "dossie-visita.png";
-      link.click();
-  
-      // Abre WhatsApp com mensagem (sem anexo automático, pois é bloqueado em navegadores)
-      const mensagem = encodeURIComponent("Segue o dossiê do imóvel que visitamos:");
-      window.open(`https://wa.me/?text=${mensagem}`, "_blank");
-  
-      // Restaura os elementos
+    
+      window.print(); // Você pode trocar por jsPDF se quiser um PDF real
+    
+      // Restaura elementos
       sidebar.style.display = "block";
       toggleBtn.style.display = "flex";
       compartilharBtn.style.display = "inline-block";
