@@ -503,7 +503,7 @@
       const corretorParam = url.searchParams.get("corretor");
     
       if (corretorParam) {
-        document.querySelector(".sidebar").style.display = "block";
+        document.querySelector(".sidebar").classList.remove("hidden");
         document.querySelector(".main").style.display = "block";
         document.getElementById("login-container").style.display = "none";
         carregarCSV();
