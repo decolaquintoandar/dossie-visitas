@@ -158,6 +158,13 @@
     <img src="logo_quintoandar.png" alt="Logo QuintoAndar" class="header-logo">
     <h1>Dossiê de Visitas</h1>
 
+    <h1 style="display: flex; align-items: center; gap: 12px;">
+      Dossiê de Visitas
+      <button id="btnCompartilhar" style="display: none; background-color: #25D366; border: none; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+        📤 Compartilhar
+      </button>
+    </h1>
+    
     <div id="placeholder" class="placeholder">Bem-vindo ao Dossiê de Visitas do QuintoAndar. Selecione um imóvel ao lado para visualizar os detalhes.</div>
     <div id="imovel" class="imovel-container" style="display: none;"></div>
   </div>
@@ -483,6 +490,7 @@
               
               placeholder.style.display = "none";
               imovelContainer.style.display = "block";
+              document.getElementById("btnCompartilhar").style.display = "inline-block";
               document.querySelector(".sidebar").classList.add("hidden");
               document.getElementById("toggleIcon").style.transform = "rotate(180deg)";
 
@@ -527,6 +535,27 @@
         sidebar.classList.add("hidden");
         icon.style.transform = "rotate(180deg)";
       }
+    });
+
+    document.getElementById("btnCompartilhar").addEventListener("click", async () => {
+      const sidebar = document.querySelector(".sidebar");
+      const toggleBtn = document.getElementById("toggleSidebar");
+      const compartilharBtn = document.getElementById("btnCompartilhar");
+    
+      // Oculta elementos desnecessários
+      sidebar.style.display = "none";
+      toggleBtn.style.display = "none";
+      compartilharBtn.style.display = "none";
+    
+      // Aguarda um pequeno delay para renderização
+      await new Promise(r => setTimeout(r, 300));
+    
+      window.print(); // Você pode trocar por jsPDF se quiser um PDF real
+    
+      // Restaura elementos
+      sidebar.style.display = "block";
+      toggleBtn.style.display = "flex";
+      compartilharBtn.style.display = "inline-block";
     });
   </script>
 </body>
