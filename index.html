@@ -536,26 +536,26 @@
           }
         });
     
-    document.getElementById("btnCompartilhar").addEventListener("click", async () => {
-      const sidebar = document.querySelector(".sidebar");
-      const toggleBtn = document.getElementById("toggleSidebar");
-      const compartilharBtn = document.getElementById("btnCompartilhar");
-    
-      // Oculta elementos desnecessários
-      sidebar.style.display = "none";
-      toggleBtn.style.display = "none";
-      compartilharBtn.style.display = "none";
-    
-      // Aguarda um pequeno delay para renderização
-      await new Promise(r => setTimeout(r, 300));
-    
-      window.print(); // Você pode trocar por jsPDF se quiser um PDF real
-    
-      // Restaura elementos
-      sidebar.style.display = "block";
-      toggleBtn.style.display = "flex";
-      compartilharBtn.style.display = "inline-block";
-    });
+      document.getElementById("btnCompartilhar").addEventListener("click", async () => {
+        const sidebar = document.querySelector(".sidebar");
+        const toggleBtn = document.getElementById("toggleSidebar");
+        const compartilharBtn = document.getElementById("btnCompartilhar");
+      
+        // Oculta elementos desnecessários
+        sidebar.classList.add("hidden");
+        toggleBtn.classList.add("hidden");
+        compartilharBtn.classList.add("hidden");
+      
+        await new Promise(r => setTimeout(r, 300));
+      
+        window.print();
+      
+        // Restaura elementos
+        sidebar.classList.remove("hidden");
+        toggleBtn.classList.remove("hidden");
+        compartilharBtn.classList.remove("hidden");
+      });
+
   </script>
 </body>
 </html>
