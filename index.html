@@ -473,23 +473,25 @@
       });
     }
     let skhouseSelecionado = null;
-    carregarCSV();
-
     window.onload = () => {
       const url = new URL(window.location.href);
       const corretorParam = url.searchParams.get("corretor");
     
-      if (!corretorParam) {
+      if (corretorParam === "decolaseusclientes") {
+        carregarCSV(); // Acesso total
+      } else if (corretorParam) {
+        carregarCSV(); // Acesso por ID de corretor
+      } else {
         const entrada = prompt("Digite o ID do corretor ou a senha:");
     
         if (entrada === "decolaseusclientes") {
-          // Deixa o acesso livre, não faz nada
+          url.searchParams.set("corretor", entrada);
+          window.location.href = url.toString();
         } else if (entrada && !isNaN(entrada)) {
-          // Se for um número, redireciona com o parâmetro do corretor
           url.searchParams.set("corretor", entrada);
           window.location.href = url.toString();
         } else {
-          alert("Acesso negado. Atualize a página e tente novamente.");
+          alert("Acesso negado. Recarregue a página para tentar novamente.");
         }
       }
     };
