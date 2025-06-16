@@ -135,7 +135,7 @@
   </style>
 </head>
 <body>
-  <div class="sidebar">
+  <div class="sidebar" style="display: none;">
     <h2>Imóveis com dossiê</h2>
     <div style="font-size: 13px; color: #555; margin-bottom: 12px;">🏘️ Similares no mesmo condomínio</div>
     <div id="skhouse-list"></div>
@@ -147,7 +147,14 @@
     </svg>
   </button>
 
-  <div class="main">
+  <div class="main" style="display: none;">
+
+    <div id="login-container" style="margin-top: 40px; font-size: 16px; color: #333;">
+      <label for="loginInput">Digite seu ID de corretor ou a senha:</label><br><br>
+      <input id="loginInput" type="text" placeholder="ID do corretor ou senha" style="padding: 8px; width: 260px; border: 1px solid #ccc; border-radius: 6px;"><br><br>
+      <button onclick="validarLogin()" style="padding: 8px 16px; background-color: #0077cc; color: white; border: none; border-radius: 6px; cursor: pointer;">Entrar</button>
+    </div>
+    
     <img src="logo_quintoandar.png" alt="Logo QuintoAndar" class="header-logo">
     <h1>Dossiê de Visitas</h1>
 
@@ -177,6 +184,20 @@
       return `${(num * 100).toFixed(1).replace('.', ',')}%`;
     }
 
+    function validarLogin() {
+      const entrada = document.getElementById("loginInput").value.trim();
+      const url = new URL(window.location.href);
+    
+      if (entrada === "decolaseusclientes") {
+        url.searchParams.set("corretor", entrada);
+        window.location.href = url.toString();
+      } else if (entrada && !isNaN(entrada)) {
+        url.searchParams.set("corretor", entrada);
+        window.location.href = url.toString();
+      } else {
+        alert("Acesso negado. Digite um ID válido ou a senha.");
+      }
+    }
     async function carregarCSV() {
       const response = await fetch('dados.csv?v=' + new Date().getTime());
       const csvText = await response.text();
@@ -481,22 +502,11 @@
       const url = new URL(window.location.href);
       const corretorParam = url.searchParams.get("corretor");
     
-      if (corretorParam === "decolaseusclientes") {
-        carregarCSV(); // Acesso total
-      } else if (corretorParam) {
-        carregarCSV(); // Acesso por ID de corretor
-      } else {
-        const entrada = prompt("Digite o ID do corretor ou a senha:");
-    
-        if (entrada === "decolaseusclientes") {
-          url.searchParams.set("corretor", entrada);
-          window.location.href = url.toString();
-        } else if (entrada && !isNaN(entrada)) {
-          url.searchParams.set("corretor", entrada);
-          window.location.href = url.toString();
-        } else {
-          alert("Acesso negado. Recarregue a página para tentar novamente.");
-        }
+      if (corretorParam) {
+        document.querySelector(".sidebar").style.display = "block";
+        document.querySelector(".main").style.display = "block";
+        document.getElementById("login-container").style.display = "none";
+        carregarCSV();
       }
     };
     
