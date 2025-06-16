@@ -216,7 +216,7 @@
             imovelContainer.innerHTML = "";
 
             const corretorFiltrado = getParametroUrl("corretor");
-            const dataFiltrada = corretorFiltrado
+            const dataFiltrada = (corretorFiltrado && corretorFiltrado !== "decolaseusclientes")
               ? data.filter(item => item["id_corretor"] === corretorFiltrado)
               : data;
             
