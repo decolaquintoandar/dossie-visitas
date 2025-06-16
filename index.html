@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Dossiê de Visitas</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; display: flex; }
     h1 { color: #333; margin-bottom: 0; }
@@ -305,7 +306,7 @@
               endereco.className = "imovel-endereco";
               endereco.textContent = `${imovel["house_address"]}, ${imovel["house_neighborhood"]}`;
               const img = document.createElement("img");
-              img.src = `https://www.quintoandar.com.br/img/${imovel["name"]}?w=300&auto=compress`;
+              img.src = `https://www.quintoandar.com.br/img/${imovel["name"]}`;
               const infos = document.createElement("div");
               infos.className = "imovel-infos";
               infos.textContent = `${imovel["house_total_area"]} m² | ${imovel["house_bedrooms"]} quarto(s) | ${imovel["house_bathrooms"]} ban. | ${imovel["house_garages"]} vaga(s)`;
@@ -391,7 +392,7 @@
                 card.style.textAlign = "center";
               
                 const imagem = document.createElement("img");
-                imagem.src = `https://www.quintoandar.com.br/img/${fotoUrl}?w=300&auto=compress`;
+                imagem.src = `https://www.quintoandar.com.br/img/${fotoUrl}`;
                 imagem.className = "imagem-similar";
                 card.appendChild(imagem);
               
@@ -536,25 +537,36 @@
           }
         });
     
-      document.getElementById("btnCompartilhar").addEventListener("click", async () => {
-        const sidebar = document.querySelector(".sidebar");
-        const toggleBtn = document.getElementById("toggleSidebar");
-        const compartilharBtn = document.getElementById("btnCompartilhar");
-      
-        // Oculta elementos desnecessários
-        sidebar.classList.add("hidden");
-        toggleBtn.classList.add("hidden");
-        compartilharBtn.classList.add("hidden");
-      
-        await new Promise(r => setTimeout(r, 300));
-      
-        window.print();
-      
-        // Restaura elementos
-        sidebar.classList.remove("hidden");
-        toggleBtn.classList.remove("hidden");
-        compartilharBtn.classList.remove("hidden");
-      });
+        document.getElementById("btnCompartilhar").addEventListener("click", async () => {
+          const sidebar = document.querySelector(".sidebar");
+          const toggleBtn = document.getElementById("toggleSidebar");
+          const compartilharBtn = document.getElementById("btnCompartilhar");
+        
+          // Oculta elementos que não devem aparecer
+          sidebar.classList.add("hidden");
+          toggleBtn.classList.add("hidden");
+          compartilharBtn.classList.add("hidden");
+        
+          await new Promise(r => setTimeout(r, 300));
+        
+          const element = document.querySelector(".main");
+        
+          const opt = {
+            margin:       0.5,
+            filename:     'dossie-visita.pdf',
+            image:        { type: 'jpeg', quality: 0.75 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+          };
+        
+          html2pdf().set(opt).from(element).save().then(() => {
+            // Restaura elementos
+            sidebar.classList.remove("hidden");
+            toggleBtn.classList.remove("hidden");
+            compartilharBtn.classList.remove("hidden");
+          });
+        });
+
 
   </script>
 </body>
