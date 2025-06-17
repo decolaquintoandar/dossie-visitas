@@ -156,7 +156,12 @@
     </div>
     
     <img src="logo_quintoandar.png" alt="Logo QuintoAndar" class="header-logo">
-    <h1>Dossiê de Visitas</h1>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+      <h1 style="margin: 0;">Dossiê de Visitas</h1>
+      <button id="botaoCompartilhar" style="display: none; padding: 8px 14px; background-color: #0077cc; color: white; border: none; border-radius: 6px; cursor: pointer;">
+        Compartilhar com comprador
+      </button>
+    </div>
 
     <div id="placeholder" class="placeholder">Bem-vindo ao Dossiê de Visitas do QuintoAndar. Selecione um imóvel ao lado para visualizar os detalhes.</div>
     <div id="imovel" class="imovel-container" style="display: none;"></div>
@@ -496,25 +501,15 @@
               imovelContainer.appendChild(similaresGrid);
 
               if (corretorFiltrado) {
-                const botaoCompartilhar = document.createElement("button");
-                botaoCompartilhar.textContent = "Compartilhar com comprador";
-                botaoCompartilhar.style.marginTop = "20px";
-                botaoCompartilhar.style.padding = "10px 16px";
-                botaoCompartilhar.style.backgroundColor = "#0077cc";
-                botaoCompartilhar.style.color = "white";
-                botaoCompartilhar.style.border = "none";
-                botaoCompartilhar.style.borderRadius = "6px";
-                botaoCompartilhar.style.cursor = "pointer";
-              
-                botaoCompartilhar.addEventListener("click", () => {
+                const botao = document.getElementById("botaoCompartilhar");
+                botao.style.display = "inline-block";
+                botao.addEventListener("click", () => {
                   const base = window.location.origin + window.location.pathname;
                   const link = `${base}?sk_house=${imovel["sk_house"]}&dt_visita=${imovel["dt_visita"]}&hr_visita=${imovel["hr_visita"]}`;
                   navigator.clipboard.writeText(link).then(() => {
                     alert("Link copiado para a área de transferência!");
                   });
                 });
-              
-                imovelContainer.appendChild(botaoCompartilhar);
               }
               
               placeholder.style.display = "none";
