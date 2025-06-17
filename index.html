@@ -181,7 +181,7 @@
     function formatarPercentual(valor) {
       const num = parseFloat(valor);
       if (isNaN(num)) return "-";
-      return ${(num * 100).toFixed(1).replace('.', ',')}%;
+      return `${(num * 100).toFixed(1).replace('.', ',')}%`;
     }
 
     function validarLogin() {
@@ -237,7 +237,7 @@
               if (lista.length === 0) return;
               const header = document.createElement("div");
               header.className = "skhouse-section-title";
-              header.textContent = ${titulo};
+              header.textContent = `${titulo}`;
               skhouseList.appendChild(header);
 
               lista.forEach(linha => {
@@ -297,12 +297,12 @@
               imagemCol.className = "imovel-imagem";
               const endereco = document.createElement("div");
               endereco.className = "imovel-endereco";
-              endereco.textContent = ${imovel["house_address"]}, ${imovel["house_neighborhood"]};
+              endereco.textContent = `${imovel["house_address"]}, ${imovel["house_neighborhood"]}`;
               const img = document.createElement("img");
-              img.src = https://www.quintoandar.com.br/img/${imovel["name"]};
+              img.src = `https://www.quintoandar.com.br/img/${imovel["name"]}`;
               const infos = document.createElement("div");
               infos.className = "imovel-infos";
-              infos.textContent = ${imovel["house_total_area"]} m² | ${imovel["house_bedrooms"]} quarto(s) | ${imovel["house_bathrooms"]} ban. | ${imovel["house_garages"]} vaga(s);
+              infos.textContent = `${imovel["house_total_area"]} m² | ${imovel["house_bedrooms"]} quarto(s) | ${imovel["house_bathrooms"]} ban. | ${imovel["house_garages"]} vaga(s)`;
 
               const tags = document.createElement("div");
               tags.className = "tags";
@@ -317,7 +317,7 @@
               preco.textContent = formatarReais(imovel["price"]);
               const link = document.createElement("div");
               link.className = "imovel-link";
-              link.innerHTML = <a href="https://www.quintoandar.com.br/imovel/${imovel["sk_house"]}/comprar/" target="_blank">Imóvel da sua visita no site</a>;
+              link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${imovel["sk_house"]}/comprar/" target="_blank">Imóvel da sua visita no site</a>`;
               
               imagemCol.appendChild(endereco);
               imagemCol.appendChild(img);
@@ -351,7 +351,7 @@
               ];
               rows.forEach(([label, valor]) => {
                 const tr = document.createElement("tr");
-                tr.innerHTML = <th>${label}</th><td>${valor}</td>;
+                tr.innerHTML = `<th>${label}</th><td>${valor}</td>`;
                 tabela.appendChild(tr);
               });
               detalhesCol.appendChild(tabela);
@@ -454,7 +454,7 @@
                 linkWrapper.style.textAlign = "center";
                 
                 const link = document.createElement("a");
-                link.href = https://www.quintoandar.com.br/imovel/${idImovel}/comprar/;
+                link.href = `https://www.quintoandar.com.br/imovel/${idImovel}/comprar/`;
                 link.target = "_blank";
                 link.textContent = "Clique para acessar o imóvel!";
                 link.style.display = "inline-flex";
