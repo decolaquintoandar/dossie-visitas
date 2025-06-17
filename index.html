@@ -248,7 +248,7 @@
                 }
                 const temMesmoCondominio = data.some(outro =>
                   outro["sk_house"] !== linha["sk_house"] &&
-                  Array.from({ length: 9 }, (_, i) => outro[similar listing info ${i + 1}])
+                  Array.from({ length: 9 }, (_, i) => outro[`similar listing info ${i + 1}`])
                     .filter(info => info && info.includes("/"))
                     .some(info => {
                       const primeiroParametro = info.split("/")[0].trim().toLowerCase();
@@ -488,8 +488,6 @@
 
             }
           }
-
-          const corretorFiltrado = getParametroUrl("corretor");
 
           if (corretorFiltrado === "decolaseusclientes" || (corretorFiltrado && !isNaN(corretorFiltrado))) {
             atualizarDossie();
