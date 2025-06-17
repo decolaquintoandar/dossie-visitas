@@ -215,7 +215,7 @@
         complete: function(results) {
           const data = results.data;
         
-          document.getElementById("btnCompartilharImagem").addEventListener("click", () => {
+          document.getElementById("btnCompartilhar").addEventListener("click", () => {
             if (!skhouseSelecionado) return;
           
             const imovel = data.find(l => l["sk_house"] === skhouseSelecionado);
