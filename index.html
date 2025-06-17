@@ -213,6 +213,10 @@
         skipEmptyLines: true,
         complete: function(results) {
           const data = results.data;
+          
+          const skhouseList = document.getElementById("skhouse-list");
+          const placeholder = document.getElementById("placeholder");
+          const imovelContainer = document.getElementById("imovel");
 
           document.getElementById("btnCompartilhar").addEventListener("click", () => {
             if (!skhouseSelecionado) return;
@@ -245,11 +249,6 @@
             }
           }
         }
-
-          
-          const skhouseList = document.getElementById("skhouse-list");
-          const placeholder = document.getElementById("placeholder");
-          const imovelContainer = document.getElementById("imovel");
 
           function atualizarDossie(filtro = "", filtroSkhouse = null) {
             skhouseList.innerHTML = "";
