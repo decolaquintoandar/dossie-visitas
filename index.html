@@ -175,7 +175,7 @@
     }
 
     function formatarReais(valor) {
-      return valor ? R$ ${Number(valor).toLocaleString("pt-BR")} : "-";
+      return valor ? `R$ ${Number(valor).toLocaleString("pt-BR")}` : "-";
     }
 
     function formatarPercentual(valor) {
@@ -256,13 +256,13 @@
                     })
                 );
                 
-                const enderecoTexto = ${linha["house_address"]}, ${linha["house_neighborhood"]};
-                div.innerHTML = 
+                const enderecoTexto = `${linha["house_address"]}, ${linha["house_neighborhood"]}`;
+                div.innerHTML = `
                   <div style="display: flex; align-items: center; justify-content: center; gap: 6px; flex-direction: row; text-align: center;">
                     ${temMesmoCondominio ? '<span style="font-size: 16px;">🏘️</span>' : ''}
                     <span style="font-size: 14px; line-height: 1.2;">${enderecoTexto}</span>
                   </div>
-                ;
+                `;
                 div.addEventListener("click", () => {
                   document.querySelectorAll(".skhouse-item").forEach(el => el.classList.remove("selected"));
                   div.classList.add("selected");
@@ -332,7 +332,7 @@
               const tabela = document.createElement("table");
 
               const diag = ((imovel["price"] - imovel["predicted_price_70"]) / imovel["price"]);
-              const diagLabel = isNaN(diag) ? "-" : ${(diag * 100).toFixed(1).replace('.', ',')}% ${diag >= 0 ? 'acima do ideal' : 'abaixo do ideal'};
+              const diagLabel = isNaN(diag) ? "-" : `${(diag * 100).toFixed(1).replace('.', ',')}% ${diag >= 0 ? 'acima do ideal' : 'abaixo do ideal'}`;
 
               const rows = [
                 ["Data da visita", formatarDataBR(imovel["dt_visita"])],
@@ -385,7 +385,7 @@
                 card.style.textAlign = "center";
               
                 const imagem = document.createElement("img");
-                imagem.src = https://www.quintoandar.com.br/img/${fotoUrl};
+                imagem.src = `https://www.quintoandar.com.br/img/${fotoUrl}`;
                 imagem.className = "imagem-similar";
                 card.appendChild(imagem);
               
