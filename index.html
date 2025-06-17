@@ -135,7 +135,7 @@
   </style>
 </head>
 <body>
-  <div class="sidebar hidden">
+  <div class="sidebar">
     <h2>Imóveis com dossiê</h2>
     <div style="font-size: 13px; color: #555; margin-bottom: 12px;">🏘️ Similares no mesmo condomínio</div>
     <div id="skhouse-list"></div>
@@ -147,14 +147,7 @@
     </svg>
   </button>
 
-  <div class="main" style="display: none;">
-
-    <div id="login-container" style="margin-top: 40px; font-size: 16px; color: #333;">
-      <label for="loginInput">Digite seu ID de corretor ou a senha:</label><br><br>
-      <input id="loginInput" type="text" placeholder="ID do corretor ou senha" style="padding: 8px; width: 260px; border: 1px solid #ccc; border-radius: 6px;"><br><br>
-      <button onclick="validarLogin()" style="padding: 8px 16px; background-color: #0077cc; color: white; border: none; border-radius: 6px; cursor: pointer;">Entrar</button>
-    </div>
-
+  <div class="main">
     <img src="logo_quintoandar.png" alt="Logo QuintoAndar" class="header-logo">
     <h1>Dossiê de Visitas</h1>
 
@@ -175,29 +168,15 @@
     }
 
     function formatarReais(valor) {
-      return valor ? `R$ ${Number(valor).toLocaleString("pt-BR")}` : "-";
+      return valor ? R$ ${Number(valor).toLocaleString("pt-BR")} : "-";
     }
 
     function formatarPercentual(valor) {
       const num = parseFloat(valor);
       if (isNaN(num)) return "-";
-      return `${(num * 100).toFixed(1).replace('.', ',')}%`;
+      return ${(num * 100).toFixed(1).replace('.', ',')}%;
     }
 
-    function validarLogin() {
-      const entrada = document.getElementById("loginInput").value.trim();
-      const url = new URL(window.location.href);
-
-      if (entrada === "decolaseusclientes") {
-        url.searchParams.set("corretor", entrada);
-        window.location.href = url.toString();
-      } else if (entrada && !isNaN(entrada)) {
-        url.searchParams.set("corretor", entrada);
-        window.location.href = url.toString();
-      } else {
-        alert("Acesso negado. Digite um ID válido ou a senha.");
-      }
-    }
     async function carregarCSV() {
       const response = await fetch('dados.csv?v=' + new Date().getTime());
       const csvText = await response.text();
@@ -216,12 +195,12 @@
             imovelContainer.innerHTML = "";
 
             const corretorFiltrado = getParametroUrl("corretor");
-            const dataFiltrada = (corretorFiltrado && corretorFiltrado !== "decolaseusclientes")
+            const dataFiltrada = corretorFiltrado
               ? data.filter(item => item["id_corretor"] === corretorFiltrado)
               : data;
-
+            
             skhouseSelecionado = filtroSkhouse;
-
+            
             const hoje = new Date();
             const hojeStr = hoje.toISOString().split('T')[0];
             const amanha = new Date(hoje);
@@ -237,7 +216,7 @@
               if (lista.length === 0) return;
               const header = document.createElement("div");
               header.className = "skhouse-section-title";
-              header.textContent = `${titulo}`;
+              header.textContent = ${titulo};
               skhouseList.appendChild(header);
 
               lista.forEach(linha => {
@@ -248,21 +227,21 @@
                 }
                 const temMesmoCondominio = data.some(outro =>
                   outro["sk_house"] !== linha["sk_house"] &&
-                  Array.from({ length: 9 }, (_, i) => outro[`similar listing info ${i + 1}`])
+                  Array.from({ length: 9 }, (_, i) => outro[similar listing info ${i + 1}])
                     .filter(info => info && info.includes("/"))
                     .some(info => {
                       const primeiroParametro = info.split("/")[0].trim().toLowerCase();
                       return primeiroParametro.includes("mesmo condomínio") && info.includes(linha["sk_house"]);
                     })
                 );
-
-                const enderecoTexto = `${linha["house_address"]}, ${linha["house_neighborhood"]}`;
-                div.innerHTML = `
+                
+                const enderecoTexto = ${linha["house_address"]}, ${linha["house_neighborhood"]};
+                div.innerHTML = 
                   <div style="display: flex; align-items: center; justify-content: center; gap: 6px; flex-direction: row; text-align: center;">
                     ${temMesmoCondominio ? '<span style="font-size: 16px;">🏘️</span>' : ''}
                     <span style="font-size: 14px; line-height: 1.2;">${enderecoTexto}</span>
                   </div>
-                `;
+                ;
                 div.addEventListener("click", () => {
                   document.querySelectorAll(".skhouse-item").forEach(el => el.classList.remove("selected"));
                   div.classList.add("selected");
@@ -287,9 +266,9 @@
               const tituloSessao = document.createElement("div");
               tituloSessao.className = "titulo-imovel-visita";
               tituloSessao.textContent = "Imóvel da visita";
-
+              
               imovelContainer.appendChild(tituloSessao);
-
+              
               const grid = document.createElement("div");
               grid.className = "imovel-grid";
 
@@ -297,12 +276,12 @@
               imagemCol.className = "imovel-imagem";
               const endereco = document.createElement("div");
               endereco.className = "imovel-endereco";
-              endereco.textContent = `${imovel["house_address"]}, ${imovel["house_neighborhood"]}`;
+              endereco.textContent = ${imovel["house_address"]}, ${imovel["house_neighborhood"]};
               const img = document.createElement("img");
-              img.src = `https://www.quintoandar.com.br/img/${imovel["name"]}`;
+              img.src = https://www.quintoandar.com.br/img/${imovel["name"]};
               const infos = document.createElement("div");
               infos.className = "imovel-infos";
-              infos.textContent = `${imovel["house_total_area"]} m² | ${imovel["house_bedrooms"]} quarto(s) | ${imovel["house_bathrooms"]} ban. | ${imovel["house_garages"]} vaga(s)`;
+              infos.textContent = ${imovel["house_total_area"]} m² | ${imovel["house_bedrooms"]} quarto(s) | ${imovel["house_bathrooms"]} ban. | ${imovel["house_garages"]} vaga(s);
 
               const tags = document.createElement("div");
               tags.className = "tags";
@@ -317,8 +296,8 @@
               preco.textContent = formatarReais(imovel["price"]);
               const link = document.createElement("div");
               link.className = "imovel-link";
-              link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${imovel["sk_house"]}/comprar/" target="_blank">Imóvel da sua visita no site</a>`;
-
+              link.innerHTML = <a href="https://www.quintoandar.com.br/imovel/${imovel["sk_house"]}/comprar/" target="_blank">Imóvel da sua visita no site</a>;
+              
               imagemCol.appendChild(endereco);
               imagemCol.appendChild(img);
               imagemCol.appendChild(infos);
@@ -332,7 +311,7 @@
               const tabela = document.createElement("table");
 
               const diag = ((imovel["price"] - imovel["predicted_price_70"]) / imovel["price"]);
-              const diagLabel = isNaN(diag) ? "-" : `${(diag * 100).toFixed(1).replace('.', ',')}% ${diag >= 0 ? 'acima do ideal' : 'abaixo do ideal'}`;
+              const diagLabel = isNaN(diag) ? "-" : ${(diag * 100).toFixed(1).replace('.', ',')}% ${diag >= 0 ? 'acima do ideal' : 'abaixo do ideal'};
 
               const rows = [
                 ["Data da visita", formatarDataBR(imovel["dt_visita"])],
@@ -351,12 +330,12 @@
               ];
               rows.forEach(([label, valor]) => {
                 const tr = document.createElement("tr");
-                tr.innerHTML = `<th>${label}</th><td>${valor}</td>`;
+                tr.innerHTML = <th>${label}</th><td>${valor}</td>;
                 tabela.appendChild(tr);
               });
               detalhesCol.appendChild(tabela);
               grid.appendChild(detalhesCol);
-
+              
               imovelContainer.appendChild(grid);
 
               const tituloSimilares = document.createElement("div");
@@ -366,29 +345,29 @@
 
               const similaresGrid = document.createElement("div");
               similaresGrid.className = "imovel-grid";
-
+              
               // Percorre de similar_1 até similar_9
               for (let i = 1; i <= 9; i++) {
-                const idImovel = imovel[`similar listing ${i}`];
-                const infoCampo = imovel[`similar listing info ${i}`];
-
+                const idImovel = imovel[similar listing ${i}];
+                const infoCampo = imovel[similar listing info ${i}];
+              
                 if (!idImovel || !infoCampo || !infoCampo.includes("/")) continue;
-
+              
                 const partes = infoCampo.split("/");
                 const [distancia, fotoUrlRaw, info, endereco, preco, tag1, tag2, tag3] = partes;
 
                 const fotoUrl = fotoUrlRaw.trim();
-
+                
                 const card = document.createElement("div");
                 card.className = "imovel-detalhes";
                 card.style.width = "280px";
                 card.style.textAlign = "center";
-
+              
                 const imagem = document.createElement("img");
-                imagem.src = `https://www.quintoandar.com.br/img/${fotoUrl}`;
+                imagem.src = https://www.quintoandar.com.br/img/${fotoUrl};
                 imagem.className = "imagem-similar";
                 card.appendChild(imagem);
-
+              
                 const titulo = document.createElement("div");
                 titulo.textContent = distancia.substring(3); 
                 titulo.style.backgroundColor = "#dfdfdf";    
@@ -401,26 +380,26 @@
                 titulo.style.borderRadius = "10px";
                 titulo.style.marginBottom = "10px";
                 card.appendChild(titulo);
-
+                              
                 const infos = document.createElement("div");
                 infos.style.fontSize = "14px";
                 infos.style.color = "#555";
                 infos.textContent = info;
                 card.appendChild(infos);
-
+              
                 const end = document.createElement("div");
                 end.style.fontSize = "14px";
                 end.style.color = "#333";
                 end.style.margin = "6px 0";
                 end.textContent = endereco;
                 card.appendChild(end);
-
+              
                 const valor = document.createElement("div");
                 valor.style.fontWeight = "bold";
                 valor.style.marginTop = "4px";
                 valor.textContent = formatarReais(preco);
                 card.appendChild(valor);
-
+              
                 const tagsArray = [tag1, tag2, tag3].filter(tag => tag && tag.trim() !== "");
                 if (tagsArray.length > 0) {
                   const tags = document.createElement("div");
@@ -430,7 +409,7 @@
                   tags.style.flexWrap = "wrap";
                   tags.style.gap = "4px";
                   tags.style.justifyContent = "center";
-
+                
                   tagsArray.forEach(tag => {
                     const span = document.createElement("div");
                     span.className = "tag";
@@ -445,16 +424,16 @@
                     }
                     tags.appendChild(span);
                   });
-
+                
                   card.appendChild(tags);
                 }
 
                 const linkWrapper = document.createElement("div");
                 linkWrapper.style.marginTop = "12px";
                 linkWrapper.style.textAlign = "center";
-
+                
                 const link = document.createElement("a");
-                link.href = `https://www.quintoandar.com.br/imovel/${idImovel}/comprar/`;
+                link.href = https://www.quintoandar.com.br/imovel/${idImovel}/comprar/;
                 link.target = "_blank";
                 link.textContent = "Clique para acessar o imóvel!";
                 link.style.display = "inline-flex";
@@ -464,23 +443,23 @@
                 link.style.color = "#0077cc";
                 link.style.fontWeight = "bold";
                 link.style.fontSize = "14px";
-
+                
                 link.addEventListener("mouseover", () => link.style.color = "#005fa3");
                 link.addEventListener("mouseout", () => link.style.color = "#0077cc");
-
+                
                 const icon = document.createElement("span");
                 icon.textContent = "🔗";
                 link.prepend(icon);
-
+                
                 linkWrapper.appendChild(link);
                 card.appendChild(linkWrapper);
 
-
+              
                 similaresGrid.appendChild(card);
               }
 
               imovelContainer.appendChild(similaresGrid);
-
+              
               placeholder.style.display = "none";
               imovelContainer.style.display = "block";
               document.querySelector(".sidebar").classList.add("hidden");
@@ -489,45 +468,22 @@
             }
           }
 
-          const corretorFiltrado = getParametroUrl("corretor");
-
-          if (corretorFiltrado === "decolaseusclientes" || (corretorFiltrado && !isNaN(corretorFiltrado))) {
-            atualizarDossie();
-          }
+          atualizarDossie();
         }
       });
     }
     let skhouseSelecionado = null;
-    window.onload = () => {
-      const url = new URL(window.location.href);
-      const corretorParam = url.searchParams.get("corretor");
+    carregarCSV();
+    
+  document.getElementById("toggleSidebar").addEventListener("click", () => {
+    const sidebar = document.querySelector(".sidebar");
+    const toggleIcon = document.querySelector("#toggleSidebar svg");
+  
+    sidebar.classList.toggle("hidden");
+    toggleIcon.style.transform = sidebar.classList.contains("hidden") ? "rotate(180deg)" : "rotate(0deg)";
+  });
 
-      if (corretorParam) {
-        document.querySelector(".sidebar").classList.remove("hidden");
-        document.querySelector(".main").style.display = "block";
-        document.getElementById("login-container").style.display = "none";
-        carregarCSV();
-      } else {
-        // Mostra apenas a tela de login
-        document.querySelector(".main").style.display = "block";
-        document.getElementById("login-container").style.display = "block";
-      }
-    };
-
-    document.getElementById("toggleSidebar").addEventListener("click", () => {
-      const sidebar = document.querySelector(".sidebar");
-      const icon = document.getElementById("toggleIcon");
-
-      const isHidden = sidebar.classList.contains("hidden");
-
-      if (isHidden) {
-        sidebar.classList.remove("hidden");
-        icon.style.transform = "rotate(0deg)";
-      } else {
-        sidebar.classList.add("hidden");
-        icon.style.transform = "rotate(180deg)";
-      }
-    });
+    
   </script>
 </body>
 </html>
