@@ -513,8 +513,24 @@
 
           const corretorFiltrado = getParametroUrl("corretor");
 
-          if (corretorFiltrado === "decolaseusclientes" || (corretorFiltrado && !isNaN(corretorFiltrado))) {
+          const skParam = getParametroUrl("sk_house");
+          const dtParam = getParametroUrl("dt_visita");
+          const hrParam = getParametroUrl("hr_visita");
+          
+          if (
+            corretorFiltrado === "decolaseusclientes" ||
+            (corretorFiltrado && !isNaN(corretorFiltrado))
+          ) {
             atualizarDossie();
+          } else if (skParam && dtParam && hrParam) {
+            const match = data.find(
+              l => l.sk_house === skParam && l.dt_visita === dtParam && l.hr_visita === hrParam
+            );
+            if (match) {
+              document.querySelector(".main").style.display = "block";
+              document.getElementById("login-container").style.display = "none";
+              atualizarDossie("", skParam);
+            }
           }
         }
       });
