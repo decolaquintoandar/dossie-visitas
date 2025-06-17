@@ -369,8 +369,8 @@
               
               // Percorre de similar_1 até similar_9
               for (let i = 1; i <= 9; i++) {
-                const idImovel = imovel[similar listing ${i}];
-                const infoCampo = imovel[similar listing info ${i}];
+                const idImovel = imovel[`similar listing ${i}`];
+                const infoCampo = imovel[`similar listing info ${i}`];
               
                 if (!idImovel || !infoCampo || !infoCampo.includes("/")) continue;
               
