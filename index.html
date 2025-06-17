@@ -201,7 +201,8 @@
     async function carregarCSV() {
       const response = await fetch('dados.csv?v=' + new Date().getTime());
       const csvText = await response.text();
-
+      const corretorFiltrado = getParametroUrl("corretor");
+      
       Papa.parse(csvText, {
         header: true,
         skipEmptyLines: true,
@@ -215,7 +216,6 @@
             skhouseList.innerHTML = "";
             imovelContainer.innerHTML = "";
 
-            const corretorFiltrado = getParametroUrl("corretor");
             const dataFiltrada = (corretorFiltrado && corretorFiltrado !== "decolaseusclientes")
               ? data.filter(item => item["id_corretor"] === corretorFiltrado)
               : data;
