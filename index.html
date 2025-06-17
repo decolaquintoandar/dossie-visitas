@@ -154,16 +154,10 @@
       <input id="loginInput" type="text" placeholder="ID do corretor ou senha" style="padding: 8px; width: 260px; border: 1px solid #ccc; border-radius: 6px;"><br><br>
       <button onclick="validarLogin()" style="padding: 8px 16px; background-color: #0077cc; color: white; border: none; border-radius: 6px; cursor: pointer;">Entrar</button>
     </div>
-    
-    <img src="logo_quintoandar.png" alt="Logo QuintoAndar" class="header-logo">
 
-    <h1 style="display: flex; align-items: center; gap: 12px;">
-      Dossiê de Visitas
-      <button id="btnCompartilhar" style="background-color: #2196f3; border: none; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
-        📤 Compartilhar com o comprador
-      </button>
-    </h1>
-    
+    <img src="logo_quintoandar.png" alt="Logo QuintoAndar" class="header-logo">
+    <h1>Dossiê de Visitas</h1>
+
     <div id="placeholder" class="placeholder">Bem-vindo ao Dossiê de Visitas do QuintoAndar. Selecione um imóvel ao lado para visualizar os detalhes.</div>
     <div id="imovel" class="imovel-container" style="display: none;"></div>
   </div>
@@ -193,7 +187,7 @@
     function validarLogin() {
       const entrada = document.getElementById("loginInput").value.trim();
       const url = new URL(window.location.href);
-    
+
       if (entrada === "decolaseusclientes") {
         url.searchParams.set("corretor", entrada);
         window.location.href = url.toString();
@@ -213,7 +207,6 @@
         skipEmptyLines: true,
         complete: function(results) {
           const data = results.data;
-          
           const skhouseList = document.getElementById("skhouse-list");
           const placeholder = document.getElementById("placeholder");
           const imovelContainer = document.getElementById("imovel");
@@ -226,9 +219,9 @@
             const dataFiltrada = (corretorFiltrado && corretorFiltrado !== "decolaseusclientes")
               ? data.filter(item => item["id_corretor"] === corretorFiltrado)
               : data;
-            
+
             skhouseSelecionado = filtroSkhouse;
-            
+
             const hoje = new Date();
             const hojeStr = hoje.toISOString().split('T')[0];
             const amanha = new Date(hoje);
@@ -262,7 +255,7 @@
                       return primeiroParametro.includes("mesmo condomínio") && info.includes(linha["sk_house"]);
                     })
                 );
-                
+
                 const enderecoTexto = `${linha["house_address"]}, ${linha["house_neighborhood"]}`;
                 div.innerHTML = `
                   <div style="display: flex; align-items: center; justify-content: center; gap: 6px; flex-direction: row; text-align: center;">
@@ -291,14 +284,12 @@
 
             const imovel = dataFiltrada.find(l => l["sk_house"] === filtroSkhouse);
             if (imovel) {
-              document.querySelector(".main").style.display = "block";
-              
               const tituloSessao = document.createElement("div");
               tituloSessao.className = "titulo-imovel-visita";
               tituloSessao.textContent = "Imóvel da visita";
-              
+
               imovelContainer.appendChild(tituloSessao);
-              
+
               const grid = document.createElement("div");
               grid.className = "imovel-grid";
 
@@ -327,7 +318,7 @@
               const link = document.createElement("div");
               link.className = "imovel-link";
               link.innerHTML = `<a href="https://www.quintoandar.com.br/imovel/${imovel["sk_house"]}/comprar/" target="_blank">Imóvel da sua visita no site</a>`;
-              
+
               imagemCol.appendChild(endereco);
               imagemCol.appendChild(img);
               imagemCol.appendChild(infos);
@@ -365,7 +356,7 @@
               });
               detalhesCol.appendChild(tabela);
               grid.appendChild(detalhesCol);
-              
+
               imovelContainer.appendChild(grid);
 
               const tituloSimilares = document.createElement("div");
@@ -375,29 +366,29 @@
 
               const similaresGrid = document.createElement("div");
               similaresGrid.className = "imovel-grid";
-              
+
               // Percorre de similar_1 até similar_9
               for (let i = 1; i <= 9; i++) {
                 const idImovel = imovel[`similar listing ${i}`];
                 const infoCampo = imovel[`similar listing info ${i}`];
-              
+
                 if (!idImovel || !infoCampo || !infoCampo.includes("/")) continue;
-              
+
                 const partes = infoCampo.split("/");
                 const [distancia, fotoUrlRaw, info, endereco, preco, tag1, tag2, tag3] = partes;
 
                 const fotoUrl = fotoUrlRaw.trim();
-                
+
                 const card = document.createElement("div");
                 card.className = "imovel-detalhes";
                 card.style.width = "280px";
                 card.style.textAlign = "center";
-              
+
                 const imagem = document.createElement("img");
                 imagem.src = `https://www.quintoandar.com.br/img/${fotoUrl}`;
                 imagem.className = "imagem-similar";
                 card.appendChild(imagem);
-              
+
                 const titulo = document.createElement("div");
                 titulo.textContent = distancia.substring(3); 
                 titulo.style.backgroundColor = "#dfdfdf";    
@@ -410,26 +401,26 @@
                 titulo.style.borderRadius = "10px";
                 titulo.style.marginBottom = "10px";
                 card.appendChild(titulo);
-                              
+
                 const infos = document.createElement("div");
                 infos.style.fontSize = "14px";
                 infos.style.color = "#555";
                 infos.textContent = info;
                 card.appendChild(infos);
-              
+
                 const end = document.createElement("div");
                 end.style.fontSize = "14px";
                 end.style.color = "#333";
                 end.style.margin = "6px 0";
                 end.textContent = endereco;
                 card.appendChild(end);
-              
+
                 const valor = document.createElement("div");
                 valor.style.fontWeight = "bold";
                 valor.style.marginTop = "4px";
                 valor.textContent = formatarReais(preco);
                 card.appendChild(valor);
-              
+
                 const tagsArray = [tag1, tag2, tag3].filter(tag => tag && tag.trim() !== "");
                 if (tagsArray.length > 0) {
                   const tags = document.createElement("div");
@@ -439,7 +430,7 @@
                   tags.style.flexWrap = "wrap";
                   tags.style.gap = "4px";
                   tags.style.justifyContent = "center";
-                
+
                   tagsArray.forEach(tag => {
                     const span = document.createElement("div");
                     span.className = "tag";
@@ -454,14 +445,14 @@
                     }
                     tags.appendChild(span);
                   });
-                
+
                   card.appendChild(tags);
                 }
 
                 const linkWrapper = document.createElement("div");
                 linkWrapper.style.marginTop = "12px";
                 linkWrapper.style.textAlign = "center";
-                
+
                 const link = document.createElement("a");
                 link.href = `https://www.quintoandar.com.br/imovel/${idImovel}/comprar/`;
                 link.target = "_blank";
@@ -473,100 +464,70 @@
                 link.style.color = "#0077cc";
                 link.style.fontWeight = "bold";
                 link.style.fontSize = "14px";
-                
+
                 link.addEventListener("mouseover", () => link.style.color = "#005fa3");
                 link.addEventListener("mouseout", () => link.style.color = "#0077cc");
-                
+
                 const icon = document.createElement("span");
                 icon.textContent = "🔗";
                 link.prepend(icon);
-                
+
                 linkWrapper.appendChild(link);
                 card.appendChild(linkWrapper);
 
-              
+
                 similaresGrid.appendChild(card);
               }
 
               imovelContainer.appendChild(similaresGrid);
-              
+
               placeholder.style.display = "none";
               imovelContainer.style.display = "block";
-              document.getElementById("btnCompartilhar").style.display = "inline-block";
               document.querySelector(".sidebar").classList.add("hidden");
               document.getElementById("toggleIcon").style.transform = "rotate(180deg)";
 
             }
           }
 
-          document.getElementById("btnCompartilhar").addEventListener("click", () => {
-            if (!skhouseSelecionado) return;
-          
-            const imovel = data.find(l => l["sk_house"] === skhouseSelecionado);
-            if (!imovel) return;
-          
-            const link = `${window.location.origin}${window.location.pathname}?sk_house=${skhouseSelecionado}&dt_visita=${imovel["dt_visita"]}&hr_visita=${imovel["hr_visita"]}`;
-            
-            navigator.clipboard.writeText(link).then(() => {
-              alert("Link copiado para a área de transferência!");
-            });
-          });
-          
-          const skParam = getParametroUrl("sk_house");
-          const dtParam = getParametroUrl("dt_visita");
-          const hrParam = getParametroUrl("hr_visita");
           const corretorFiltrado = getParametroUrl("corretor");
-        
+
           if (corretorFiltrado === "decolaseusclientes" || (corretorFiltrado && !isNaN(corretorFiltrado))) {
             atualizarDossie();
-          } else if (skParam && dtParam && hrParam) {
-            const match = data.find(
-              l => l.sk_house === skParam && l.dt_visita === dtParam && l.hr_visita === hrParam
-            );
-            if (match) {
-              document.querySelector(".main").style.display = "block";
-              document.getElementById("login-container").style.display = "none";
-              atualizarDossie("", skParam);
-            }
           }
         }
       });
     }
     let skhouseSelecionado = null;
     window.onload = () => {
-        const url = new URL(window.location.href);
-        const corretorParam = url.searchParams.get("corretor");
-        const skhouseParam = url.searchParams.get("sk_house");
-      
-        if (skhouseParam) {
-          document.querySelector(".sidebar").classList.add("hidden");
-          document.getElementById("toggleIcon").style.transform = "rotate(180deg)";
-        }
-      
-        if (corretorParam) {
-          document.querySelector(".sidebar").classList.remove("hidden");
-          document.getElementById("login-container").style.display = "none";
-        } else {
-          document.getElementById("login-container").style.display = "none";
-        }
+      const url = new URL(window.location.href);
+      const corretorParam = url.searchParams.get("corretor");
 
+      if (corretorParam) {
+        document.querySelector(".sidebar").classList.remove("hidden");
+        document.querySelector(".main").style.display = "block";
+        document.getElementById("login-container").style.display = "none";
         carregarCSV();
-    
-      document.getElementById("toggleSidebar").addEventListener("click", () => {
-          const sidebar = document.querySelector(".sidebar");
-          const icon = document.getElementById("toggleIcon");
-        
-          const isHidden = sidebar.classList.contains("hidden");
-        
-          if (isHidden) {
-            sidebar.classList.remove("hidden");
-            icon.style.transform = "rotate(0deg)";
-          } else {
-            sidebar.classList.add("hidden");
-            icon.style.transform = "rotate(180deg)";
-          }
-        });
+      } else {
+        // Mostra apenas a tela de login
+        document.querySelector(".main").style.display = "block";
+        document.getElementById("login-container").style.display = "block";
+      }
     };
+
+    document.getElementById("toggleSidebar").addEventListener("click", () => {
+      const sidebar = document.querySelector(".sidebar");
+      const icon = document.getElementById("toggleIcon");
+
+      const isHidden = sidebar.classList.contains("hidden");
+
+      if (isHidden) {
+        sidebar.classList.remove("hidden");
+        icon.style.transform = "rotate(0deg)";
+      } else {
+        sidebar.classList.add("hidden");
+        icon.style.transform = "rotate(180deg)";
+      }
+    });
   </script>
 </body>
 </html>
