@@ -489,6 +489,8 @@
             }
           }
 
+          const corretorFiltrado = getParametroUrl("corretor");
+          
           if (corretorFiltrado === "decolaseusclientes" || (corretorFiltrado && !isNaN(corretorFiltrado))) {
             atualizarDossie();
           }
