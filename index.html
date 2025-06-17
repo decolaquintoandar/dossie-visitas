@@ -528,7 +528,7 @@
             (corretorFiltrado && !isNaN(corretorFiltrado)) ||
             (getParametroUrl("sk_house") && getParametroUrl("dt_visita") && getParametroUrl("hr_visita"))
           ) {
-            atualizarDossie();
+            atualizarDossie("", getParametroUrl("sk_house"));
           }
         }
       });
