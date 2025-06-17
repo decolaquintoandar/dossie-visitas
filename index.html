@@ -574,16 +574,16 @@
         
           await new Promise(r => setTimeout(r, 300)); // Espera renderizar
         
-          html2canvas(main, { scale: 2 }).then(canvas => {
-              scale: 2,
-              useCORS: true,
-              allowTaint: false
-            }).then(canvas => {
-              const link = document.createElement("a");
-              link.download = "dossie-visita.png";
-              link.href = canvas.toDataURL("image/png");
-              link.click();
-        
+          html2canvas(main, {
+            scale: 2,
+            useCORS: true,
+            allowTaint: false
+          }).then(canvas => {
+            const link = document.createElement("a");
+            link.download = "dossie-visita.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+          
             // Restaura tudo
             sidebar.classList.remove("hidden");
             toggleBtn.classList.remove("hidden");
@@ -591,7 +591,6 @@
             main.style.height = originalHeight;
             window.scrollTo(0, originalScroll);
           });
-        });
 
 
   </script>
