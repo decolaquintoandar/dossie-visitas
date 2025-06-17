@@ -541,6 +541,11 @@
       if (skParam && dtParam && hrParam) {
         document.querySelector(".main").style.display = "block";
         document.getElementById("login-container").style.display = "none";
+      
+        if (!corretorParam) {
+          document.querySelector(".sidebar").style.display = "none";
+          document.getElementById("toggleSidebar").style.display = "none";
+        }
         carregarCSV();
         return; 
       }
