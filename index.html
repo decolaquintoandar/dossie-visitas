@@ -503,13 +503,13 @@
               if (corretorFiltrado) {
                 const botao = document.getElementById("botaoCompartilhar");
                 botao.style.display = "inline-block";
-                botao.addEventListener("click", () => {
+                botao.onclick = () => {
                   const base = window.location.origin + window.location.pathname;
                   const link = `${base}?sk_house=${imovel["sk_house"]}&dt_visita=${imovel["dt_visita"]}&hr_visita=${imovel["hr_visita"]}`;
                   navigator.clipboard.writeText(link).then(() => {
                     alert("Link copiado para a área de transferência!");
                   });
-                });
+                };
               }
               
               placeholder.style.display = "none";
