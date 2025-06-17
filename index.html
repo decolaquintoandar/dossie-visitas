@@ -218,38 +218,6 @@
           const placeholder = document.getElementById("placeholder");
           const imovelContainer = document.getElementById("imovel");
 
-          document.getElementById("btnCompartilhar").addEventListener("click", () => {
-            if (!skhouseSelecionado) return;
-          
-            const imovel = data.find(l => l["sk_house"] === skhouseSelecionado);
-            if (!imovel) return;
-          
-            const link = `${window.location.origin}${window.location.pathname}?sk_house=${skhouseSelecionado}&dt_visita=${imovel["dt_visita"]}&hr_visita=${imovel["hr_visita"]}`;
-            
-            navigator.clipboard.writeText(link).then(() => {
-              alert("Link copiado para a área de transferência!");
-            });
-          });
-          
-          const skParam = getParametroUrl("sk_house");
-          const dtParam = getParametroUrl("dt_visita");
-          const hrParam = getParametroUrl("hr_visita");
-          const corretorFiltrado = getParametroUrl("corretor");
-        
-          if (corretorFiltrado === "decolaseusclientes" || (corretorFiltrado && !isNaN(corretorFiltrado))) {
-            atualizarDossie();
-          } else if (skParam && dtParam && hrParam) {
-            const match = data.find(
-              l => l.sk_house === skParam && l.dt_visita === dtParam && l.hr_visita === hrParam
-            );
-            if (match) {
-              document.querySelector(".main").style.display = "block";
-              document.getElementById("login-container").style.display = "none";
-              atualizarDossie("", skParam);
-            }
-          }
-        }
-
           function atualizarDossie(filtro = "", filtroSkhouse = null) {
             skhouseList.innerHTML = "";
             imovelContainer.innerHTML = "";
@@ -528,6 +496,38 @@
 
             }
           }
+
+          document.getElementById("btnCompartilhar").addEventListener("click", () => {
+            if (!skhouseSelecionado) return;
+          
+            const imovel = data.find(l => l["sk_house"] === skhouseSelecionado);
+            if (!imovel) return;
+          
+            const link = `${window.location.origin}${window.location.pathname}?sk_house=${skhouseSelecionado}&dt_visita=${imovel["dt_visita"]}&hr_visita=${imovel["hr_visita"]}`;
+            
+            navigator.clipboard.writeText(link).then(() => {
+              alert("Link copiado para a área de transferência!");
+            });
+          });
+          
+          const skParam = getParametroUrl("sk_house");
+          const dtParam = getParametroUrl("dt_visita");
+          const hrParam = getParametroUrl("hr_visita");
+          const corretorFiltrado = getParametroUrl("corretor");
+        
+          if (corretorFiltrado === "decolaseusclientes" || (corretorFiltrado && !isNaN(corretorFiltrado))) {
+            atualizarDossie();
+          } else if (skParam && dtParam && hrParam) {
+            const match = data.find(
+              l => l.sk_house === skParam && l.dt_visita === dtParam && l.hr_visita === hrParam
+            );
+            if (match) {
+              document.querySelector(".main").style.display = "block";
+              document.getElementById("login-container").style.display = "none";
+              atualizarDossie("", skParam);
+            }
+          }
+        }
 
           const corretorFiltrado = getParametroUrl("corretor");
 
