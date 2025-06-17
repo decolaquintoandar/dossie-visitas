@@ -291,6 +291,8 @@
 
             const imovel = dataFiltrada.find(l => l["sk_house"] === filtroSkhouse);
             if (imovel) {
+              document.querySelector(".main").style.display = "block";
+              
               const tituloSessao = document.createElement("div");
               tituloSessao.className = "titulo-imovel-visita";
               tituloSessao.textContent = "Imóvel da visita";
