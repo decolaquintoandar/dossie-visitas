@@ -501,8 +501,14 @@
       const corretorParam = url.searchParams.get("corretor");
     
       if (corretorParam) {
-          document.querySelector(".main").style.display = "block";
-          document.getElementById("login-container").style.display = "none";
+        document.querySelector(".main").style.display = "block";
+        document.getElementById("login-container").style.display = "none";
+    
+        const skhouseParam = url.searchParams.get("sk_house");
+        if (!skhouseParam) {
+          document.querySelector(".sidebar").classList.remove("hidden");
+          document.getElementById("toggleIcon").style.transform = "rotate(0deg)";
+        }
           carregarCSV();
       } else {
         // Mostra apenas a tela de login
