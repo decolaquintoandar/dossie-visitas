@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Dossiê de Visitas</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; display: flex; }
     h1 { color: #333; margin-bottom: 0; }
@@ -214,7 +213,7 @@
         skipEmptyLines: true,
         complete: function(results) {
           const data = results.data;
-        
+
           document.getElementById("btnCompartilhar").addEventListener("click", () => {
             if (!skhouseSelecionado) return;
           
@@ -227,6 +226,26 @@
               alert("Link copiado para a área de transferência!");
             });
           });
+          
+          const skParam = getParametroUrl("sk_house");
+          const dtParam = getParametroUrl("dt_visita");
+          const hrParam = getParametroUrl("hr_visita");
+          const corretorFiltrado = getParametroUrl("corretor");
+        
+          if (corretorFiltrado === "decolaseusclientes" || (corretorFiltrado && !isNaN(corretorFiltrado))) {
+            atualizarDossie();
+          } else if (skParam && dtParam && hrParam) {
+            const match = data.find(
+              l => l.sk_house === skParam && l.dt_visita === dtParam && l.hr_visita === hrParam
+            );
+            if (match) {
+              document.querySelector(".main").style.display = "block";
+              document.getElementById("login-container").style.display = "none";
+              atualizarDossie("", skParam);
+            }
+          }
+        }
+
           
           const skhouseList = document.getElementById("skhouse-list");
           const placeholder = document.getElementById("placeholder");
@@ -517,21 +536,6 @@
           const dtParam = getParametroUrl("dt_visita");
           const hrParam = getParametroUrl("hr_visita");
           
-          if (
-            corretorFiltrado === "decolaseusclientes" ||
-            (corretorFiltrado && !isNaN(corretorFiltrado))
-          ) {
-            atualizarDossie();
-          } else if (skParam && dtParam && hrParam) {
-            const match = data.find(
-              l => l.sk_house === skParam && l.dt_visita === dtParam && l.hr_visita === hrParam
-            );
-            if (match) {
-              document.querySelector(".main").style.display = "block";
-              document.getElementById("login-container").style.display = "none";
-              atualizarDossie("", skParam);
-            }
-          }
         }
       });
     }
