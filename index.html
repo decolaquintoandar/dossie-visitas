@@ -214,6 +214,20 @@
         skipEmptyLines: true,
         complete: function(results) {
           const data = results.data;
+        
+          document.getElementById("btnCompartilharImagem").addEventListener("click", () => {
+            if (!skhouseSelecionado) return;
+          
+            const imovel = data.find(l => l["sk_house"] === skhouseSelecionado);
+            if (!imovel) return;
+          
+            const link = `${window.location.origin}${window.location.pathname}?sk_house=${skhouseSelecionado}&dt_visita=${imovel["dt_visita"]}&hr_visita=${imovel["hr_visita"]}`;
+            
+            navigator.clipboard.writeText(link).then(() => {
+              alert("Link copiado para a área de transferência!");
+            });
+          });
+          
           const skhouseList = document.getElementById("skhouse-list");
           const placeholder = document.getElementById("placeholder");
           const imovelContainer = document.getElementById("imovel");
@@ -541,19 +555,6 @@
             sidebar.classList.add("hidden");
             icon.style.transform = "rotate(180deg)";
           }
-        });
-    
-        document.getElementById("btnCompartilhar").addEventListener("click", () => {
-          if (!skhouseSelecionado) return;
-        
-          const imovel = data.find(l => l["sk_house"] === skhouseSelecionado);
-          if (!imovel) return;
-        
-          const link = `${window.location.origin}${window.location.pathname}?sk_house=${skhouseSelecionado}&dt_visita=${imovel["dt_visita"]}&hr_visita=${imovel["hr_visita"]}`;
-        
-          navigator.clipboard.writeText(link).then(() => {
-            alert("Link copiado para a área de transferência!");
-          });
         });
 
   </script>
