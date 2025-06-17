@@ -216,9 +216,23 @@
             skhouseList.innerHTML = "";
             imovelContainer.innerHTML = "";
 
-            const dataFiltrada = (corretorFiltrado && corretorFiltrado !== "decolaseusclientes")
-              ? data.filter(item => item["id_corretor"] === corretorFiltrado)
-              : data;
+            const skUrl = getParametroUrl("sk_house");
+            const dtUrl = getParametroUrl("dt_visita");
+            const hrUrl = getParametroUrl("hr_visita");
+            
+            let dataFiltrada = [];
+            
+            if (skUrl && dtUrl && hrUrl) {
+              dataFiltrada = data.filter(item =>
+                item["sk_house"] === skUrl &&
+                item["dt_visita"] === dtUrl &&
+                item["hr_visita"] === hrUrl
+              );
+            } else if (corretorFiltrado && corretorFiltrado !== "decolaseusclientes") {
+              dataFiltrada = data.filter(item => item["id_corretor"] === corretorFiltrado);
+            } else {
+              dataFiltrada = data;
+            }
             
             skhouseSelecionado = filtroSkhouse;
             
@@ -480,6 +494,26 @@
               }
 
               imovelContainer.appendChild(similaresGrid);
+
+              const botaoCompartilhar = document.createElement("button");
+              botaoCompartilhar.textContent = "Compartilhar com comprador";
+              botaoCompartilhar.style.marginTop = "20px";
+              botaoCompartilhar.style.padding = "10px 16px";
+              botaoCompartilhar.style.backgroundColor = "#0077cc";
+              botaoCompartilhar.style.color = "white";
+              botaoCompartilhar.style.border = "none";
+              botaoCompartilhar.style.borderRadius = "6px";
+              botaoCompartilhar.style.cursor = "pointer";
+              
+              botaoCompartilhar.addEventListener("click", () => {
+                const base = window.location.origin + window.location.pathname;
+                const link = `${base}?sk_house=${imovel["sk_house"]}&dt_visita=${imovel["dt_visita"]}&hr_visita=${imovel["hr_visita"]}`;
+                navigator.clipboard.writeText(link).then(() => {
+                  alert("Link copiado para a área de transferência!");
+                });
+              });
+              
+              imovelContainer.appendChild(botaoCompartilhar);
               
               placeholder.style.display = "none";
               imovelContainer.style.display = "block";
@@ -499,7 +533,18 @@
     window.onload = () => {
       const url = new URL(window.location.href);
       const corretorParam = url.searchParams.get("corretor");
+
+      const skParam = url.searchParams.get("sk_house");
+      const dtParam = url.searchParams.get("dt_visita");
+      const hrParam = url.searchParams.get("hr_visita");
     
+      if (skParam && dtParam && hrParam) {
+        document.querySelector(".main").style.display = "block";
+        document.getElementById("login-container").style.display = "none";
+        carregarCSV();
+        return; 
+      }
+      
       if (corretorParam) {
         document.querySelector(".main").style.display = "block";
         document.getElementById("login-container").style.display = "none";
