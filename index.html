@@ -548,15 +548,12 @@
       
         if (corretorParam) {
           document.querySelector(".sidebar").classList.remove("hidden");
-          document.querySelector(".main").style.display = "block";
           document.getElementById("login-container").style.display = "none";
-          carregarCSV();
         } else {
-          // Mostra apenas a tela de login
-          document.querySelector(".main").style.display = "block";
-          document.getElementById("login-container").style.display = "block";
+          document.getElementById("login-container").style.display = "none";
         }
-      };
+
+        carregarCSV();
     
       document.getElementById("toggleSidebar").addEventListener("click", () => {
           const sidebar = document.querySelector(".sidebar");
