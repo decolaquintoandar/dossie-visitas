@@ -564,7 +564,6 @@
           // Oculta a sidebar e botões
           sidebar.classList.add("hidden");
           toggleBtn.classList.add("hidden");
-          compartilharBtn.classList.add("hidden");
           compartilharImagemBtn.classList.add("hidden");
         
           const originalScroll = document.documentElement.scrollTop;
@@ -584,7 +583,6 @@
             // Restaura tudo
             sidebar.classList.remove("hidden");
             toggleBtn.classList.remove("hidden");
-            compartilharBtn.classList.remove("hidden");
             compartilharImagemBtn.classList.remove("hidden");
             main.style.height = originalHeight;
             window.scrollTo(0, originalScroll);
