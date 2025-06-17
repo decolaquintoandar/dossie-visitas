@@ -134,7 +134,7 @@
     .imagem-similar {width: 100%; height: 260px; object-fit: cover; border-top-left-radius: 6px; border-top-right-radius: 6px; margin-bottom: 8px; aspect-ratio: 1 / 1;}
   </style>
 
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABC123XYZ"></script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-80B5PSJKT7"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -519,6 +519,12 @@
                   const link = `${base}?sk_house=${imovel["sk_house"]}&dt_visita=${imovel["dt_visita"]}&hr_visita=${imovel["hr_visita"]}`;
                   navigator.clipboard.writeText(link).then(() => {
                     alert("Link copiado para a área de transferência!");
+
+                    gtag('event', 'compartilhar_comprador', {
+                      event_category: 'engajamento',
+                      event_label: 'Botão Compartilhar',
+                      value: 1
+                    });
                   });
                 };
               }
