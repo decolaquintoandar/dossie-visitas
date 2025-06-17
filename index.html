@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Dossiê de Visitas</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; display: flex; }
     h1 { color: #333; margin-bottom: 0; }
@@ -160,7 +160,7 @@
 
     <h1 style="display: flex; align-items: center; gap: 12px;">
       Dossiê de Visitas
-      <button id="btnCompartilhar" style="display: none; background-color: #25D366; border: none; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+      <button id="btnCompartilharImagem" style="background-color: #2196f3; border: none; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
         📤 Compartilhar com o comprador
       </button>
     </h1>
@@ -554,46 +554,40 @@
           });
         }
     
-        document.getElementById("btnCompartilhar").addEventListener("click", async () => {
+        document.getElementById("btnCompartilharImagem").addEventListener("click", async () => {
           const sidebar = document.querySelector(".sidebar");
           const toggleBtn = document.getElementById("toggleSidebar");
           const compartilharBtn = document.getElementById("btnCompartilhar");
+          const compartilharImagemBtn = document.getElementById("btnCompartilharImagem");
+          const main = document.querySelector(".main");
         
-          // Oculta elementos que não devem aparecer
+          // Oculta a sidebar e botões
           sidebar.classList.add("hidden");
           toggleBtn.classList.add("hidden");
           compartilharBtn.classList.add("hidden");
-
-          const imagens = document.querySelectorAll("img");
-          const promessas = Array.from(imagens).map(async img => {
-            if (img.src && img.src.startsWith("http")) {
-              try {
-                const base64 = await carregarImagemComoBase64(img.src);
-                img.setAttribute("src", base64);
-              } catch (e) {
-                console.warn("Erro ao carregar imagem:", img.src);
-              }
-            }
-          });
-          await Promise.all(promessas);
-          
-          await new Promise(r => setTimeout(r, 300));
+          compartilharImagemBtn.classList.add("hidden");
         
-          const element = document.querySelector(".main");
+          const originalScroll = document.documentElement.scrollTop;
+          const originalHeight = main.style.height;
         
-          const opt = {
-            margin:       0.5,
-            filename:     'dossie-visita.pdf',
-            image:        { type: 'jpeg', quality: 0.75 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-          };
+          window.scrollTo(0, 0); // Garante que o topo esteja visível
+          main.style.height = "auto"; // Expande para capturar tudo
         
-          html2pdf().set(opt).from(element).save().then(() => {
-            // Restaura elementos
+          await new Promise(r => setTimeout(r, 300)); // Espera renderizar
+        
+          html2canvas(main, { scale: 2 }).then(canvas => {
+            const link = document.createElement("a");
+            link.download = "dossie-visita.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        
+            // Restaura tudo
             sidebar.classList.remove("hidden");
             toggleBtn.classList.remove("hidden");
             compartilharBtn.classList.remove("hidden");
+            compartilharImagemBtn.classList.remove("hidden");
+            main.style.height = originalHeight;
+            window.scrollTo(0, originalScroll);
           });
         });
 
