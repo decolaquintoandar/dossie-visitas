@@ -507,20 +507,26 @@
     }
     let skhouseSelecionado = null;
     window.onload = () => {
-      const url = new URL(window.location.href);
-      const corretorParam = url.searchParams.get("corretor");
-    
-      if (corretorParam) {
-        document.querySelector(".sidebar").classList.remove("hidden");
-        document.querySelector(".main").style.display = "block";
-        document.getElementById("login-container").style.display = "none";
-        carregarCSV();
-      } else {
-        // Mostra apenas a tela de login
-        document.querySelector(".main").style.display = "block";
-        document.getElementById("login-container").style.display = "block";
-      }
-    };
+        const url = new URL(window.location.href);
+        const corretorParam = url.searchParams.get("corretor");
+        const skhouseParam = url.searchParams.get("sk_house");
+      
+        if (skhouseParam) {
+          document.querySelector(".sidebar").classList.add("hidden");
+          document.getElementById("toggleIcon").style.transform = "rotate(180deg)";
+        }
+      
+        if (corretorParam) {
+          document.querySelector(".sidebar").classList.remove("hidden");
+          document.querySelector(".main").style.display = "block";
+          document.getElementById("login-container").style.display = "none";
+          carregarCSV();
+        } else {
+          // Mostra apenas a tela de login
+          document.querySelector(".main").style.display = "block";
+          document.getElementById("login-container").style.display = "block";
+        }
+      };
     
       document.getElementById("toggleSidebar").addEventListener("click", () => {
           const sidebar = document.querySelector(".sidebar");
@@ -536,62 +542,19 @@
             icon.style.transform = "rotate(180deg)";
           }
         });
-
-        function carregarImagemComoBase64(url) {
-          return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.crossOrigin = "Anonymous";
-            img.onload = () => {
-              const canvas = document.createElement("canvas");
-              canvas.width = img.naturalWidth;
-              canvas.height = img.naturalHeight;
-              const ctx = canvas.getContext("2d");
-              ctx.drawImage(img, 0, 0);
-              resolve(canvas.toDataURL("image/jpeg", 0.9));
-            };
-            img.onerror = reject;
-            img.src = url;
-          });
-        }
     
-        document.getElementById("btnCompartilharImagem").addEventListener("click", async () => {
-          const sidebar = document.querySelector(".sidebar");
-          const toggleBtn = document.getElementById("toggleSidebar");
-          const compartilharBtn = document.getElementById("btnCompartilhar");
-          const compartilharImagemBtn = document.getElementById("btnCompartilharImagem");
-          const main = document.querySelector(".main");
+        document.getElementById("btnCompartilhar").addEventListener("click", () => {
+          if (!skhouseSelecionado) return;
         
-          // Oculta a sidebar e botões
-          sidebar.classList.add("hidden");
-          toggleBtn.classList.add("hidden");
-          compartilharImagemBtn.classList.add("hidden");
+          const imovel = data.find(l => l["sk_house"] === skhouseSelecionado);
+          if (!imovel) return;
         
-          const originalScroll = document.documentElement.scrollTop;
-          const originalHeight = main.style.height;
+          const link = `${window.location.origin}${window.location.pathname}?sk_house=${skhouseSelecionado}&dt_visita=${imovel["dt_visita"]}&hr_visita=${imovel["hr_visita"]}`;
         
-          window.scrollTo(0, 0); // Garante que o topo esteja visível
-          main.style.height = "auto"; // Expande para capturar tudo
-        
-          await new Promise(r => setTimeout(r, 300)); // Espera renderizar
-        
-          html2canvas(main, {
-            scale: 2,
-            useCORS: true,
-            allowTaint: false
-          }).then(canvas => {
-            const link = document.createElement("a");
-            link.download = "dossie-visita.png";
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-          
-            // Restaura tudo
-            sidebar.classList.remove("hidden");
-            toggleBtn.classList.remove("hidden");
-            compartilharImagemBtn.classList.remove("hidden");
-            main.style.height = originalHeight;
-            window.scrollTo(0, originalScroll);
+          navigator.clipboard.writeText(link).then(() => {
+            alert("Link copiado para a área de transferência!");
           });
-      });
+        });
 
   </script>
 </body>
